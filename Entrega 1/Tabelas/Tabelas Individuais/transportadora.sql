@@ -1,4 +1,4 @@
-CREATE TABLE Transportadora (
+CREATE TABLE Transportadora ( -- Herda de empresa
     cnpj VARCHAR2(14) NOT NULL,
     frete NUMBER NOT NULL,
     CONSTRAINT cnpj_pk PRIMARY KEY (cnpj),
