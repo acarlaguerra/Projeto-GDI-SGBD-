@@ -1,4 +1,4 @@
--- povoamento categoria_loja
+-- povoamento Categoria_loja
 
 INSERT INTO categoria_loja(categoria, loja) VALUES ('Vestuário', '44397911912301');
 INSERT INTO categoria_loja(categoria, loja) VALUES ('Eletrônicos', '95495393205116');
@@ -6,5 +6,3 @@ INSERT INTO categoria_loja(categoria, loja) VALUES ('Automotivo', '9079972583594
 INSERT INTO categoria_loja(categoria, loja) VALUES ('Livros', '76286940702533');
 INSERT INTO categoria_loja(categoria, loja) VALUES ('Cosmésticos', '86281239844091');
 INSERT INTO categoria_loja(categoria, loja) VALUES ('Esporte', '44035551046395');
-
-
