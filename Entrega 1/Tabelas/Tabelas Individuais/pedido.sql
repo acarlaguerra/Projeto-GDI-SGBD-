@@ -8,5 +8,5 @@ CREATE TABLE Pedido (
     CONSTRAINT pedido_fk1 FOREIGN KEY (produto) REFERENCES Produto(identificação),
     CONSTRAINT pedido_fk2 FOREIGN KEY (cliente) REFERENCES Cliente(cpf_cliente),
     CONSTRAINT pedido_fk3 FOREIGN KEY (loja) REFERENCES Produto(cnpj_loja),
-    CONSTRAINT pedido_fk3 FOREIGN KEY (transportadora) REFERENCES Transportadora (cnpj_transportadora)
+    CONSTRAINT pedido_fk4 FOREIGN KEY (transportadora) REFERENCES Transportadora (cnpj_transportadora)
 );
