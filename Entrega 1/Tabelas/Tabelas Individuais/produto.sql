@@ -1,5 +1,5 @@
 CREATE TABLE Produto(
-    identificacao VARCHAR2(255) NOT NULL,
+    identificacao INTEGER NOT NULL,
     cnpj_loja VARCHAR2(14) NOT NULL,
     nome VARCHAR2(255) NOT NULL,
     estoque NUMBER NOT NULL,
