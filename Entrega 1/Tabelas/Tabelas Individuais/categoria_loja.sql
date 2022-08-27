@@ -1,6 +1,6 @@
-CREATE TABLE Categorias_loja(
-    categoria VARCHAR2(20),
-    loja NUMBER (14),
+CREATE TABLE Categorias_loja( -- herda de loja
+    categoria VARCHAR2(10) NOT NULL,
+    loja NUMBER (14) NOT NULL,
     CONSTRAINT categorias_loja_pk PRIMARY KEY (loja, categoria),
-    CONSTRAINT categorias_loja_fk1 FOREIGN KEY (loja) REFERENCES Loja(cnpj_loja)         
+    CONSTRAINT categorias_loja_fk FOREIGN KEY (loja) REFERENCES Loja(cnpj_loja)         
 );
