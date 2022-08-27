@@ -1,0 +1,1 @@
+INSERT INTO Pedido(ID_do_pedido, quantidade, produto, cliente, loja, transportadora, forma_de_pagamento, data_de_saida, data_de_entrega, data_da_compra) VALUES (1, 2, 1, )

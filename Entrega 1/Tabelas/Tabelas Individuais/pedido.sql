@@ -1,7 +1,9 @@
+-- Revisar tabela pedido (produto e loja ñ tá batendo)
+
 CREATE TABLE Pedido (
     ID_do_pedido INTEGER NOT NULL,
     quantidade NUMBER NOT NULL,
-    produto VARCHAR2(255) NOT NULL,
+    produto INTEGER NOT NULL,
     cliente VARCHAR2(11) NOT NULL,
     loja VARCHAR2(14) NOT NULL,
     transportadora VARCHAR2(14) NOT NULL,
