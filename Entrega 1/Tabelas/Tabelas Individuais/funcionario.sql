@@ -1,7 +1,8 @@
 CREATE TABLE Funcionario(
     cpf_func VARCHAR2(11) NOT NULL,
     data_de_admissao DATE NOT NULL,
-    cpf_supervisor VARCHAR2(11) NOT NULL,
+    cpf_supervisor VARCHAR2(11),
+    cargo VARCHAR2(255) NOT NULL,
     
     CONSTRAINT funcionario_pk PRIMARY KEY (cpf_func),
     CONSTRAINT funcionario_fk FOREIGN KEY (cpf_func) REFERENCES Usuario(cpf),
