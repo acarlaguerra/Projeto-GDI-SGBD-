@@ -3,5 +3,5 @@ CREATE TABLE Endereco (
     numero NUMBER NOT NULL,
     rua VARCHAR2(255) NOT NULL,
     
-    CONSTRAINT endereco_pk PRIMARY KEY (cep, numero)
+    CONSTRAINT endereco_pk PRIMARY KEY (cep)
 );
