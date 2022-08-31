@@ -16,6 +16,8 @@ DROP TABLE Categorias_loja;
 
 
 
+
+
 CREATE TABLE Endereco (
     cep VARCHAR2(8) NOT NULL,
     numero NUMBER NOT NULL,
@@ -111,9 +113,8 @@ CREATE TABLE Pedido (
     data_da_compra DATE NOT NULL,
     
     CONSTRAINT pedido_pk PRIMARY KEY (ID_do_pedido), 
-    CONSTRAINT pedido_fk1 FOREIGN KEY (produto) REFERENCES Produto(identificacao),
+    CONSTRAINT pedido_fk1 FOREIGN KEY (produto, loja) REFERENCES Produto(identificacao, cnpj_loja),
     CONSTRAINT pedido_fk2 FOREIGN KEY (cliente) REFERENCES Cliente(cpf_cliente),
-    CONSTRAINT pedido_fk3 FOREIGN KEY (loja) REFERENCES Produto(cnpj_loja),
     CONSTRAINT pedido_fk4 FOREIGN KEY (transportadora) REFERENCES Transportadora(cnpj_transportadora)
 );
 
@@ -126,10 +127,8 @@ CREATE TABLE Avalia( -- relacionamento N:M
     
     CONSTRAINT avalia_pk PRIMARY KEY (cliente_cpf, produto_id, loja_cnpj), 
     CONSTRAINT avalia_fk1 FOREIGN KEY (cliente_cpf) REFERENCES Cliente(cpf_cliente),
-    CONSTRAINT avalia_fk2 FOREIGN KEY (produto_id) REFERENCES Produto(identificacao),
-    CONSTRAINT avalia_fk3 FOREIGN KEY (loja_cnpj) REFERENCES Produto(cnpj_loja)
+    CONSTRAINT avalia_fk2 FOREIGN KEY (produto_id, loja_cnpj) REFERENCES Produto(identificacao, cnpj_loja)
 );
-
 
 CREATE TABLE Reclama( -- relacionamento triplo
     cliente_cpf VARCHAR2(11) NOT NULL,
