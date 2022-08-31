@@ -15,6 +15,7 @@ DROP TABLE Telefone_empresa;
 DROP TABLE Categorias_loja;
 
 
+
 CREATE TABLE Endereco (
     cep VARCHAR2(8) NOT NULL,
     numero NUMBER NOT NULL,
@@ -125,7 +126,7 @@ CREATE TABLE Avalia( -- relacionamento N:M
     nota NUMBER CHECK (nota >= 1 AND nota <= 5),
     
     CONSTRAINT avalia_pk PRIMARY KEY (cliente_cpf, produto_id, loja_cnpj), 
-    CONSTRAINT avalia_fk1 FOREIGN KEY (cliente_cpf) REFERENCES Cliente(cpf),
+    CONSTRAINT avalia_fk1 FOREIGN KEY (cliente_cpf) REFERENCES Cliente(cpf_cliente),
     CONSTRAINT avalia_fk2 FOREIGN KEY (produto_id) REFERENCES Produto(identificacao),
     CONSTRAINT avalia_fk3 FOREIGN KEY (loja_cnpj) REFERENCES Produto(cnpj_loja)
 );
@@ -154,7 +155,7 @@ CREATE TABLE Telefone_Usuario ( -- tabela para telefones do usuário (atributo m
 
 
 CREATE TABLE Telefone_empresa( -- herda de empresa
-    empresa NUMBER(14) NOT NULL,
+    empresa VARCHAR2(14) NOT NULL,
     fone NUMBER(11) NOT NULL,
     CONSTRAINT telefone_empresa_pk PRIMARY KEY (empresa, fone),
     CONSTRAINT telefone_empresa_fk FOREIGN KEY (empresa) REFERENCES Empresa(cnpj)
