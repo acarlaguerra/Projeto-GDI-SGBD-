@@ -1,1 +1,1 @@
-# Projeto-GDI-SGBD
+# Projeto-GDI SGBD
