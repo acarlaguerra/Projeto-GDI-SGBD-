@@ -14,10 +14,6 @@ DROP TABLE Telefone_Usuario;
 DROP TABLE Telefone_empresa;
 DROP TABLE Categorias_loja;
 
-
-
-
-
 CREATE TABLE Endereco (
     cep VARCHAR2(8) NOT NULL,
     numero NUMBER NOT NULL,
@@ -86,26 +82,26 @@ CREATE TABLE Loja( -- Herda de empresa
     CONSTRAINT loja_fk FOREIGN KEY (cnpj_loja) REFERENCES Empresa (cnpj)
 );
 
-
+-- Alteração na PK onde tinhamos identicacao como PK composta junto com cnpj, tiramos e colocamos nome do produto
 CREATE TABLE Produto(
-    identificacao INTEGER NOT NULL,
+    -- identificacao INTEGER NOT NULL,
     cnpj_loja VARCHAR2(14) NOT NULL,
     nome VARCHAR2(255) NOT NULL,
     estoque NUMBER NOT NULL,
     preco NUMBER NOT NULL,
-    CONSTRAINT produto_pk PRIMARY KEY (identificacao, cnpj_loja), 
+    CONSTRAINT produto_pk PRIMARY KEY (nome, cnpj_loja), 
     CONSTRAINT produto_fk FOREIGN KEY (cnpj_loja) REFERENCES Loja(cnpj_loja)
 );
 
 
 -- Revisar tabela pedido (produto e loja ñ tá batendo)
-
+-- tirando informações da tabela pedido para ter uma extensão dessa tabela
 CREATE TABLE Pedido (
     ID_do_pedido INTEGER NOT NULL,
     quantidade NUMBER NOT NULL,
-    produto INTEGER NOT NULL,
-    cliente VARCHAR2(11) NOT NULL,
-    loja VARCHAR2(14) NOT NULL,
+    -- produto INTEGER NOT NULL,
+    -- cliente VARCHAR2(11) NOT NULL,
+    -- loja VARCHAR2(14) NOT NULL,
     transportadora VARCHAR2(14) NOT NULL,
     forma_de_pagamento VARCHAR2(255) NOT NULL, 
     data_de_saida DATE NOT NULL, 
@@ -113,21 +109,33 @@ CREATE TABLE Pedido (
     data_da_compra DATE NOT NULL,
     
     CONSTRAINT pedido_pk PRIMARY KEY (ID_do_pedido), 
-    CONSTRAINT pedido_fk1 FOREIGN KEY (produto, loja) REFERENCES Produto(identificacao, cnpj_loja),
-    CONSTRAINT pedido_fk2 FOREIGN KEY (cliente) REFERENCES Cliente(cpf_cliente),
+    -- CONSTRAINT pedido_fk1 FOREIGN KEY (produto, loja) REFERENCES Produto(identificacao, cnpj_loja),
+    -- CONSTRAINT pedido_fk2 FOREIGN KEY (cliente) REFERENCES Cliente(cpf_cliente),
     CONSTRAINT pedido_fk4 FOREIGN KEY (transportadora) REFERENCES Transportadora(cnpj_transportadora)
+);
+
+-- Tabela que server para fazer query das informações do pedido
+CREATE TABLE Info_pedido (
+    cliente VARCHAR2(11) NOT NULL,
+    loja VARCHAR2(14) NOT NULL,
+    pedido INTEGER NOT NULL,
+    nome_produto VARCHAR2(255) NOT NULL,
+    CONSTRAINT info_pedido_pk PRIMARY KEY (cliente, loja, pedido, nome_produto),
+    CONSTRAINT info_pedido_fk1 FOREIGN KEY (loja, nome_produto) REFERENCES Produto(cnpj_loja, nome),
+    CONSTRAINT info_pedido_fk2 FOREIGN KEY (cliente) REFERENCES Cliente(cpf_cliente),
+    CONSTRAINT info_pedido_fk3 FOREIGN KEY (pedido) REFERENCES Pedido(ID_do_pedido)
 );
 
 
 CREATE TABLE Avalia( -- relacionamento N:M
     cliente_cpf VARCHAR2(11) NOT NULL,
-    produto_id INTEGER NOT NULL, 
+    nome_produto VARCHAR2(255) NOT NULL, 
     loja_cnpj VARCHAR2(14) NOT NULL, 
     nota NUMBER CHECK (nota >= 1 AND nota <= 5),
     
-    CONSTRAINT avalia_pk PRIMARY KEY (cliente_cpf, produto_id, loja_cnpj), 
+    CONSTRAINT avalia_pk PRIMARY KEY (cliente_cpf, nome_produto, loja_cnpj), 
     CONSTRAINT avalia_fk1 FOREIGN KEY (cliente_cpf) REFERENCES Cliente(cpf_cliente),
-    CONSTRAINT avalia_fk2 FOREIGN KEY (produto_id, loja_cnpj) REFERENCES Produto(identificacao, cnpj_loja)
+    CONSTRAINT avalia_fk2 FOREIGN KEY (nome_produto, loja_cnpj) REFERENCES Produto(nome, cnpj_loja)
 );
 
 CREATE TABLE Reclama( -- relacionamento triplo
