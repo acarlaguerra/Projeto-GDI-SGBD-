@@ -65,15 +65,15 @@ CREATE TABLE Cargo_salario (
 CREATE TABLE Empresa (
     cnpj VARCHAR2(14) NOT NULL,
     nome_fantasia VARCHAR2(255) NOT NULL,
-    CONSTRAINT cnpj_pk PRIMARY KEY (cnpj)
+    CONSTRAINT empresa_pk PRIMARY KEY (cnpj)
 );
 
 
 CREATE TABLE Transportadora ( -- Herda de empresa
     cnpj_transportadora VARCHAR2(14) NOT NULL,
     frete NUMBER NOT NULL,
-    CONSTRAINT cnpj_pk PRIMARY KEY (cnpj_transportadora),
-    CONSTRAINT cnpj_fk1 FOREIGN KEY (cnpj_transportadora) REFERENCES Empresa(cnpj)
+    CONSTRAINT transportadora_pk PRIMARY KEY (cnpj_transportadora),
+    CONSTRAINT transportadora_fk FOREIGN KEY (cnpj_transportadora) REFERENCES Empresa(cnpj)
 );
 
 
