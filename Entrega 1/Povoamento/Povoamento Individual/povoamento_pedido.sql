@@ -1,3 +1,5 @@
+CREATE SEQUENCE ID_do_pedido INCREMENT by 1 START WITH 1;
+
 INSERT INTO Pedido(ID_do_pedido, quantidade, transportadora, forma_de_pagamento, data_de_saida, data_de_entrega, data_da_compra) VALUES (ID_do_pedido.NEXTVAL, 3, '44035551046395', 'cartão de débito', to_date('02/07/2022', 'dd/mm/yy'), to_date('08/07/2022', 'dd/mm/yy'), to_date('01/07/2022', 'dd/mm/yy'));
 INSERT INTO Pedido(ID_do_pedido, quantidade, transportadora, forma_de_pagamento, data_de_saida, data_de_entrega, data_da_compra) VALUES (ID_do_pedido.NEXTVAL, 10, '86281239844091', 'cartão de crédito', to_date('02/07/2022', 'dd/mm/yy'), to_date('08/07/2022', 'dd/mm/yy'), to_date('01/07/2022', 'dd/mm/yy'));
 INSERT INTO Pedido(ID_do_pedido, quantidade, transportadora, forma_de_pagamento, data_de_saida, data_de_entrega, data_da_compra) VALUES (ID_do_pedido.NEXTVAL, 5, '44035551046395', 'boleto', to_date('05/07/2022', 'dd/mm/yy'), to_date('10/07/2022', 'dd/mm/yy'), to_date('01/07/2022', 'dd/mm/yy'));

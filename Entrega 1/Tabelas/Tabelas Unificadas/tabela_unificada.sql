@@ -1,18 +1,18 @@
-DROP TABLE Endereco;
-DROP TABLE Usuario;
-DROP TABLE Cliente;
-DROP TABLE Funcionario;
-DROP TABLE Cargo_salario;
-DROP TABLE Empresa;
-DROP TABLE Transportadora;
-DROP TABLE Loja;
-DROP TABLE Produto;
-DROP TABLE Pedido;
-DROP TABLE Avalia;
-DROP TABLE Reclama;
-DROP TABLE Telefone_Usuario;
-DROP TABLE Telefone_empresa;
-DROP TABLE Categorias_loja;
+-- DROP TABLE Endereco;
+-- DROP TABLE Usuario;
+-- DROP TABLE Cliente;
+-- DROP TABLE Funcionario;
+-- DROP TABLE Cargo_salario;
+-- DROP TABLE Empresa;
+-- DROP TABLE Transportadora;
+-- DROP TABLE Loja;
+-- DROP TABLE Produto;
+-- DROP TABLE Pedido;
+-- DROP TABLE Avalia;
+-- DROP TABLE Reclama;
+-- DROP TABLE Telefone_Usuario;
+-- DROP TABLE Telefone_empresa;
+-- DROP TABLE Categorias_loja;
 
 CREATE TABLE Endereco (
     cep VARCHAR2(8) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE Funcionario(
     
     CONSTRAINT funcionario_pk PRIMARY KEY (cpf_func),
     CONSTRAINT funcionario_fk FOREIGN KEY (cpf_func) REFERENCES Usuario(cpf),
-    CONSTRAINT funcionario_fk1 FOREIGN KEY (cpf_supervisor) REFERENCES Funcionario(cpf_func)
+    CONSTRAINT funcionario_fk1 FOREIGN KEY (cpf_supervisor) REFERENCES Usuario(cpf)
 );
 
 
