@@ -10,9 +10,9 @@ INSERT INTO Empresa(cnpj, nome_fantasia) VALUES ('75167938739208', 'Hinode - Ent
 INSERT INTO Empresa(cnpj, nome_fantasia) VALUES ('47087581321690', 'CIn Sports - Temos delivery');
 
 -- apenas lojas
-INSERT INTO Empresa(cnpj, nome_fantasia) VALUES ('75167938739001', 'Salgadinho do Marcelo');
-INSERT INTO Empresa(cnpj, nome_fantasia) VALUES ('47087581321002', 'Quentinhas de tio Almir');
-INSERT INTO Empresa(cnpj, nome_fantasia) VALUES ('75167938739003', 'Sacolé do CAC');
+INSERT INTO Empresa(cnpj, nome_fantasia) VALUES ('75167938739001', 'Camisas do Cintia');
+INSERT INTO Empresa(cnpj, nome_fantasia) VALUES ('47087581321002', 'Adriano do Hardware');
+INSERT INTO Empresa(cnpj, nome_fantasia) VALUES ('75167938739003', 'Bob Shop');
 
 --apenas transportadoras
 INSERT INTO Empresa(cnpj, nome_fantasia) VALUES ('86281239844091', 'Caminho da UFPE Transporte e Ltda');
