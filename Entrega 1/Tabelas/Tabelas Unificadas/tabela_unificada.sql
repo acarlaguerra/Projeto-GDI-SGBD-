@@ -41,6 +41,12 @@ CREATE TABLE Cliente( -- herda de Usuario
     CONSTRAINT cliente_fk FOREIGN KEY (cpf_cliente) REFERENCES Usuario(cpf)
 );
 
+CREATE TABLE Cargo_salario (
+    cargo VARCHAR2(255) NOT NULL,
+    salario NUMBER NOT NULL CHECK (salario >= 1212),
+    CONSTRAINT cargo_pk PRIMARY KEY (cargo)
+);
+
 
 CREATE TABLE Funcionario(
     cpf_func VARCHAR2(11) NOT NULL,
@@ -50,14 +56,8 @@ CREATE TABLE Funcionario(
     
     CONSTRAINT funcionario_pk PRIMARY KEY (cpf_func),
     CONSTRAINT funcionario_fk FOREIGN KEY (cpf_func) REFERENCES Usuario(cpf),
-    CONSTRAINT funcionario_fk1 FOREIGN KEY (cpf_supervisor) REFERENCES Usuario(cpf)
-);
-
-
-CREATE TABLE Cargo_salario (
-    cargo VARCHAR2(255) NOT NULL,
-    salario NUMBER NOT NULL CHECK (salario >= 1212),
-    CONSTRAINT cargo_pk PRIMARY KEY (cargo)
+    CONSTRAINT funcionario_fk1 FOREIGN KEY (cpf_supervisor) REFERENCES Usuario(cpf),
+    CONSTRAINT cargo_fk FOREIGN KEY(cargo) REFERENCES Cargo_salario(cargo)
 );
 
 
