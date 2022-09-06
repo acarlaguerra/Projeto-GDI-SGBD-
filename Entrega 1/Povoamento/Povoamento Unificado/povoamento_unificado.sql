@@ -41,6 +41,11 @@ INSERT INTO Cliente(cpf_cliente, tipo_de_assinatura) VALUES ('45492491529', 'gra
 INSERT INTO Cliente(cpf_cliente, tipo_de_assinatura) VALUES ('57945725672', 'gratuita');
 INSERT INTO Cliente(cpf_cliente, tipo_de_assinatura) VALUES ('24924924928', 'premium');
 
+-- Povoamento: Cargo_salário
+
+INSERT INTO Cargo_salario(cargo, salario) VALUES ('empregado', '1500');
+INSERT INTO Cargo_salario(cargo, salario) VALUES ('gerente', '6500');
+
 -- Povoamento: Funcionário
 
 INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('12345678910', to_date('02/02/2001', 'dd/mm/yy'), '29526345298', 'empregado');
@@ -53,11 +58,6 @@ INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUE
 INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('68722270407', to_date('09/09/2021', 'dd/mm/yy'), '52942165459', 'empregado');
 INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('60692905833', to_date('10/10/2018', 'dd/mm/yy'), '52942165459', 'empregado');
 INSERT INTO Funcionario(cpf_func, data_de_admissao, cargo) VALUES ('29526345298', to_date('11/11/2002', 'dd/mm/yy'), 'gerente');
-
--- Povoamento: Cargo_salário
-
-INSERT INTO Cargo_salario(cargo, salario) VALUES ('empregado', '1500');
-INSERT INTO Cargo_salario(cargo, salario) VALUES ('gerente', '6500');
 
 -- Povoamento: Empresa
 
