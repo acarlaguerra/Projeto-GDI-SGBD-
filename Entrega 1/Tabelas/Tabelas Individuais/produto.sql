@@ -1,6 +1,5 @@
 -- Alteração na PK onde tinhamos identicacao como PK composta junto com cnpj, tiramos e colocamos nome do produto
 CREATE TABLE Produto(
-    -- identificacao INTEGER NOT NULL,
     cnpj_loja VARCHAR2(14) NOT NULL,
     nome VARCHAR2(255) NOT NULL,
     estoque NUMBER NOT NULL,

@@ -43,14 +43,14 @@ SELECT nome
 FROM usuario
 WHERE LOWER(nome) LIKE '%an%'
 
-/* 10. IS NULL OR IS NOT NULL */
+/* 10. IS NULL OR IS NOT NULL (REVISAR) */
 /* Selecionar nome das Empresas que não possuem transportadora */
 SELECT E.nome_fantasia
 FROM Empresa E, Transportadora
 WHERE cnpj_transportadora.T = cnpj.E AND cnpj_transportadora IS NULL;
 
 /* 11. Consulta: INNER JOIN */
-/* Consulta que retorna os usuários que são clientes e funcionários */
+/* Consulta que retorna os usuários que são clientes */
 SELECT nome AS nome_cliente
 FROM Usuario
     INNER JOIN Cliente C
@@ -86,13 +86,38 @@ LEFT OUTER JOIN Usuario U2
 
 /*
     >> COUNT()
-    Consulta que retorna quantos produtos foram vendidos pela aquela loja 
+    Consulta que retorna quantos produtos foram vendidos por aquela loja 
 */
 SELECT COUNT(loja)
 FROM Info_pedido
     WHERE loja = '93139254465827';
 
 
+
+
+/*
+    SUBCONSULTA COM OPERADOR RELACIONAL
+    Consulta externa que seleciona os fretes que são mais caros que a média (consulta interna) de todos 
+*/
+SELECT frete, cnpj_transportadora
+FROM transportadora
+WHERE frete > (SELECT AVG(frete)
+                FROM transportadora)
+ORDER BY frete
+
+
+/*
+    SUBCONSULTA COM IN
+    Consulta que retorna o nome das empresas que seus produtos receberam ao menos uma avaliação >= 4
+    lembrar de discutir se junta SUBCONSULTA COM OPERADOR RELACIONAL aqui 
+*/
+SELECT DISTINCT E.nome_fantasia
+FROM avalia A
+INNER JOIN empresa E
+    ON A.loja_cnpj = E.cnpj
+WHERE A.loja_cnpj IN (SELECT loja_cnpj
+                    FROM avalia
+                    WHERE nota >= 4);
 
 
 /*
@@ -116,10 +141,37 @@ GROUP BY C.tipo_de_assinatura
 
 
 /*
-    >> HAVING
-    
+    >> HAVING (REVISAR)
+    Consulta que retorna apenas os pedidos que possuem mais de 2 produtos    
 */
-SELECT 
+SELECT pedido, COUNT(pedido) AS qtd_produtos
+FROM Info_pedido
+    GROUP BY pedido
+    HAVING COUNT(pedido) > 2
+    ORDER BY pedido;
+
+/*
+    >> MINUS
+    Consulta que retorna apenas o cpf exclusivamente dos clientes
+*/
+SELECT cpf_cliente 
+FROM Cliente
+    MINUS (SELECT cpf_func 
+           FROM Funcionario);
+
+/*
+    >> CREATE VIEW
+    Tabela virtual que contém APENAS as reclamações feita para o produto em si
+    Caso queira testar, rodar o SELECT logo abaixo :D
+*/
+CREATE VIEW reclamacao_produto AS
+SELECT pedido_id, cliente_cpf, funcionario_cpf, descricao
+FROM Reclama
+WHERE classificacao = 'produto';
+
+SELECT * FROM reclamacao_produto
+
+
 
 
 
