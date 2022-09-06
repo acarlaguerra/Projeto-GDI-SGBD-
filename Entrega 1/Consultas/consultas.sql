@@ -103,6 +103,16 @@ SELECT E.nome_fantasia, T.frete
 FROM Empresa E, transportadora T
     WHERE E.cnpj = T.cnpj_transportadora
     ORDER BY E.nome_fantasia;
+    
+/*
+    GROUP BY
+    Mostra a quantidade de pedidos feitos, agrupados por tipo de assinatura
+*/
+SELECT C.tipo_de_assinatura, COUNT(IP.pedido) AS pedidos
+FROM info_pedido IP
+INNER JOIN cliente C
+    ON IP.cliente = C.cpf_cliente
+GROUP BY C.tipo_de_assinatura
 
 
 /*
