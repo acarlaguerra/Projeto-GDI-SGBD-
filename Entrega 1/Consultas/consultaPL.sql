@@ -14,17 +14,22 @@ BEGIN
     INSERT INTO Endereco VALUES new_endereco;
 END record_block;
 
-/* 2. USO DE ESTRUTURA DE DADOS DO TIPO TABLE; */
+/* 
+    2/6/12. USO DE ESTRUTURA DE DADOS DO TIPO TABLE + %TYPE + FOR in LOOP;
+*/
 DECLARE
     TYPE produtos_type IS TABLE OF Produto.nome%TYPE
     INDEX BY BINARY_INTEGER;
-
     nome_produto_table produtos_type;
     i BINARY_INTEGER;
 
 BEGIN
-    i := 1;
-    nome_produto_table(i);
+    i := 0;
+    FOR produtos IN (SELECT nome FROM Produto) LOOP
+        nome_produto_table(i) := produtos.nome;
+        DBMS_OUTPUT.PUT_LINE(nome_produto_table(i));
+        i := i + 1;
+    END LOOP;
 END;
 
 /* 4. PROCEDURE &  16. PARÂMETROS (IN, OUT OU IN OUT) */
