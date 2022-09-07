@@ -28,3 +28,11 @@ BEGIN
     i := 1;
     nome_produto_table(i);
 END;
+
+/* 4. PROCEDURE &  16. PARÂMETROS (IN, OUT OU IN OUT) */
+Procedimento para cadastro de produto*/
+CREATE OR REPLACE PROCEDURE cadastroProduto (aux IN Produto%ROWTYPE) IS
+BEGIN
+    INSERT INTO Produto(cnpj_loja, nome, estoque, preco)
+            VALUES (aux.cnpj_loja, aux.nome, aux.estoque, aux.preco);
+END;
