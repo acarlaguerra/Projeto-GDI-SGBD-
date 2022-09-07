@@ -32,8 +32,8 @@ BEGIN
     END LOOP;
 END;
 
-/* 4. PROCEDURE &  16. PARÂMETROS (IN, OUT OU IN OUT) */
-Procedimento para cadastro de produto*/
+/* 4. PROCEDURE &  16. PARÂMETROS (IN, OUT OU IN OUT)
+Procedimento para cadastro de produto */
 CREATE OR REPLACE PROCEDURE cadastroProduto (aux IN Produto%ROWTYPE) IS
 BEGIN
     INSERT INTO Produto(cnpj_loja, nome, estoque, preco)
