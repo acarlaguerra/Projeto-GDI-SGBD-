@@ -50,14 +50,14 @@ INSERT INTO Cargo_salario(cargo, salario) VALUES ('gerente', '6500');
 
 INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('12345678910', to_date('02/02/2001', 'dd/mm/yy'), '29526345298', 'empregado');
 INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('42172124417', to_date('03/03/2005', 'dd/mm/yy'), '29526345298', 'empregado');
-INSERT INTO Funcionario(cpf_func, data_de_admissao, cargo) VALUES ('52942165459', to_date('04/04/2010', 'dd/mm/yy'), 'gerente');
+INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor,cargo) VALUES ('52942165459', to_date('04/04/2012', 'dd/mm/yy'), '', 'gerente');
 INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('27433969307', to_date('05/05/2020', 'dd/mm/yy'), '52942165459', 'empregado');
-INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('43413647537', to_date('06/06/2008', 'dd/mm/yy'), '52942165459', 'empregado');
+INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('43413647537', to_date('06/06/2010', 'dd/mm/yy'), '52942165459', 'empregado');
 INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('45026905315', to_date('07/07/2015', 'dd/mm/yy'), '29526345298', 'empregado');
-INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('16922419254', to_date('08/08/2013', 'dd/mm/yy'), '29526345298', 'empregado');
+INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('16922419254', to_date('08/08/2009', 'dd/mm/yy'), '29526345298', 'empregado');
 INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('68722270407', to_date('09/09/2021', 'dd/mm/yy'), '52942165459', 'empregado');
-INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('60692905833', to_date('10/10/2018', 'dd/mm/yy'), '52942165459', 'empregado');
-INSERT INTO Funcionario(cpf_func, data_de_admissao, cargo) VALUES ('29526345298', to_date('11/11/2002', 'dd/mm/yy'), 'gerente');
+INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) VALUES ('60692905833', to_date('10/10/2000', 'dd/mm/yy'), '52942165459', 'empregado');
+INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor,cargo) VALUES ('29526345298', to_date('11/11/2008', 'dd/mm/yy'), '',  'gerente');
 
 -- Povoamento: Empresa
 
@@ -141,6 +141,7 @@ INSERT INTO Produto(cnpj_loja, nome, estoque, preco) VALUES ('47087581321002', '
 INSERT INTO Produto(cnpj_loja, nome, estoque, preco) VALUES ('47087581321002', 'Televisão Super Pipeline', 5, 5550.00);
 
 CREATE SEQUENCE ID_do_pedido INCREMENT by 1 START WITH 1;
+--Povoamento pedido
 -- JM (1-4)
 INSERT INTO Pedido(ID_do_pedido, quantidade, transportadora, forma_de_pagamento, data_de_saida, data_de_entrega, data_da_compra) VALUES (ID_do_pedido.NEXTVAL, 3, '44035551046395', 'cartão de débito', to_date('02/07/2022', 'dd/mm/yy'), to_date('08/07/2022', 'dd/mm/yy'), to_date('01/07/2022', 'dd/mm/yy'));
 INSERT INTO Pedido(ID_do_pedido, quantidade, transportadora, forma_de_pagamento, data_de_saida, data_de_entrega, data_da_compra) VALUES (ID_do_pedido.NEXTVAL, 2, '93139254465827', 'cartão de crédito', to_date('02/07/2022', 'dd/mm/yy'), to_date('08/07/2022', 'dd/mm/yy'), to_date('01/07/2022', 'dd/mm/yy'));

@@ -1,0 +1,30 @@
+/* 1.USO DE RECORD & 3.BLOCO ANÔNIMO 
+Descrição: cria um novo endereço e insere no Banco de Dados */
+<<record_block>>
+DECLARE 
+    TYPE d_endereco IS RECORD (
+        cep VARCHAR2(8),
+        numero NUMBER,
+        rua VARCHAR2(255));
+        new_endereco d_endereco;
+BEGIN 
+    new_endereco.cep := '50000056';
+    new_endereco.numero := '55';
+    new_endereco.rua := 'Rua Tatooine';
+    INSERT INTO Endereco VALUES new_endereco;
+END record_block;
+
+/* 2. USO DE ESTRUTURA DE DADOS DO TIPO TABLE;
+*/
+
+DECLARE
+    TYPE produtos_type IS TABLE OF Produto.nome%TYPE
+    INDEX BY BINARY_INTEGER;
+
+    nome_produto_table produtos_type;
+    i BINARY_INTEGER;
+
+BEGIN
+    i := 1;
+    nome_produto_table(i);
+END;
