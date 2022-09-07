@@ -14,9 +14,7 @@ BEGIN
     INSERT INTO Endereco VALUES new_endereco;
 END record_block;
 
-/* 2. USO DE ESTRUTURA DE DADOS DO TIPO TABLE;
-*/
-
+/* 2. USO DE ESTRUTURA DE DADOS DO TIPO TABLE; */
 DECLARE
     TYPE produtos_type IS TABLE OF Produto.nome%TYPE
     INDEX BY BINARY_INTEGER;
