@@ -90,3 +90,20 @@ BEGIN
         DBMS_OUTPUT.Put_line('Pare!');
 END;
 
+/* 8.  IF ELSIF & 20. CREATE OR REPLACE TRIGGER (LINHA)
+Trigger que dispara após uma inserção ou atualização na tabela avalia e printa a avaliação da nota */
+CREATE OR REPLACE TRIGGER check_range
+AFTER INSERT OR UPDATE
+ON avalia
+FOR EACH ROW
+BEGIN
+
+    IF 1 <= :NEW.nota AND :NEW.nota < 3 THEN
+        dbms_output.put_line('Avaliação baixa');
+    ELSIF 3 <= :NEW.nota AND :NEW.nota <= 4 THEN
+        dbms_output.put_line('Avaliação razoável');
+    ELSE
+        dbms_output.put_line('Avaliação alta');
+    END IF;
+
+END;
