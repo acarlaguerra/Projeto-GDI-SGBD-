@@ -111,20 +111,23 @@ BEGIN
   
 END;
 
-/* 8.  IF ELSIF & 20. CREATE OR REPLACE TRIGGER (LINHA)
-Trigger que dispara após uma inserção ou atualização na tabela avalia e printa a avaliação da nota */
-CREATE OR REPLACE TRIGGER check_range
-AFTER INSERT OR UPDATE
-ON avalia
+/* 20. CREATE OR REPLACE TRIGGER (LINHA)
+Trigger que dispara antes de uma deleção se a tentativa de cancelar um pedido for no dia ou depois do dia de envio */
+CREATE OR REPLACE TRIGGER cancelar_depois_do_envio
+BEFORE DELETE  
+ON pedido
 FOR EACH ROW
-BEGIN
-
-    IF 1 <= :NEW.nota AND :NEW.nota < 3 THEN
-        dbms_output.put_line('Avaliação baixa');
-    ELSIF 3 <= :NEW.nota AND :NEW.nota <= 4 THEN
-        dbms_output.put_line('Avaliação razoável');
-    ELSE
-        dbms_output.put_line('Avaliação alta');
+DECLARE
+    dia VARCHAR2(2) := EXTRACT(day from sysdate);
+    mes VARCHAR2(2) := EXTRACT(month from sysdate);
+    data_invalida EXCEPTION;
+BEGIN 
+    IF dia >=  EXTRACT (day from :OLD.data_de_saida) THEN
+        IF mes >= EXTRACT (month from :OLD.data_de_saida) THEN
+            RAISE data_invalida;
+        END IF;
     END IF;
-
+EXCEPTION 
+WHEN data_invalida THEN
+    Raise_application_error(-20404, 'Pedido a caminho! Tentativa de cancelamento recusada');
 END;
