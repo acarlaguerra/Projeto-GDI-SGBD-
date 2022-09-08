@@ -14,6 +14,7 @@ BEGIN
     INSERT INTO Endereco VALUES new_endereco;
 END record_block;
 
+
 /* 
     2/6/12. USO DE ESTRUTURA DE DADOS DO TIPO TABLE + %TYPE + FOR in LOOP;
 */
@@ -32,6 +33,7 @@ BEGIN
     END LOOP;
 END;
 
+
 /* 4. PROCEDURE &  16. PARÂMETROS (IN, OUT OU IN OUT)
 Procedimento para cadastro de produto */
 CREATE OR REPLACE PROCEDURE cadastroProduto (aux IN Produto%ROWTYPE) IS
@@ -39,6 +41,7 @@ BEGIN
     INSERT INTO Produto(cnpj_loja, nome, estoque, preco)
             VALUES (aux.cnpj_loja, aux.nome, aux.estoque, aux.preco);
 END;
+
 
 /*
     5/13/15 - CREATE FUNCTION + SELECT INTO + EXCEPTION WHEN
@@ -60,3 +63,30 @@ CREATE OR REPLACE FUNCTION pegar_salario (cpfinho Usuario.cpf%TYPE)
             WHEN NO_DATA_FOUND THEN
                 RAISE_APPLICATION_ERROR(-20101, 'Não é um funcionário!');
 END;
+
+
+/* 10. LOOP EXIT WHEN & 14. CURSOR(OPEN, FETCH E CLOSE)
+Lista o nome E o cpf dos clientes que possuem conta premium*/
+DECLARE
+    v_nome Usuario.nome%TYPE;
+    v_cpf Cliente.cpf_cliente%TYPE;
+    v_conta Cliente.tipo_de_assinatura%TYPE := 'premium';
+
+CURSOR cursor_conta IS
+    SELECT U.nome, C.cpf_cliente
+    FROM Usuario U, Cliente C
+    WHERE U.cpf = C.cpf_cliente AND tipo_de_assinatura = v_conta;
+
+BEGIN
+    OPEN cursor_conta;
+    LOOP
+        FETCH cursor_conta INTO v_nome, v_cpf;
+        EXIT WHEN cursor_conta%NOTFOUND;
+        dbms_output.put_line('Cliente: '|| ' ' || TO_CHAR(v_nome) || ' ' || TO_CHAR(v_cpf));
+    END LOOP;
+    CLOSE cursor_conta;
+    EXCEPTION
+    WHEN INVALID_CURSOR THEN
+        DBMS_OUTPUT.Put_line('Pare!');
+END;
+
