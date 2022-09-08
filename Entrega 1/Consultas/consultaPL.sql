@@ -90,7 +90,7 @@ BEGIN
         DBMS_OUTPUT.Put_line('Pare!');
 END;
 
-/* 19. CREATE OR REPLACE TRIGGER (COMANDO)
+/* 19. CREATE OR REPLACE TRIGGER (COMANDO) 9. CASE WHEN
 Trigger que dispara após inserção, atualização e deleção na tabela pedido e printa o tipo de operação realizada*/
 CREATE OR REPLACE TRIGGER alteracao_pedido
 BEFORE INSERT OR UPDATE OR DELETE
