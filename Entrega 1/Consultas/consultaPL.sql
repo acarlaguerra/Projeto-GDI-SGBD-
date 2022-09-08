@@ -39,3 +39,24 @@ BEGIN
     INSERT INTO Produto(cnpj_loja, nome, estoque, preco)
             VALUES (aux.cnpj_loja, aux.nome, aux.estoque, aux.preco);
 END;
+
+/*
+    5/13/15 - CREATE FUNCTION + SELECT INTO + EXCEPTION WHEN
+    Essa função visa pegar o salário de um funcionário dado o seu cpf.
+    Caso o CPF não seja de um funcionário uma exception é lançada.
+*/
+CREATE OR REPLACE FUNCTION pegar_salario (cpfinho Usuario.cpf%TYPE)
+    RETURN Cargo_Salario.salario%TYPE
+    IS salariozinho Cargo_Salario.salario%TYPE;
+    BEGIN
+        SELECT C.salario
+        INTO salariozinho
+        FROM Cargo_Salario C
+        WHERE C.cargo = (SELECT F.cargo FROM Funcionario F WHERE F.cpf_func = cpfinho);
+        
+        RETURN salariozinho;
+        
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                RAISE_APPLICATION_ERROR(-20101, 'Não é um funcionário!');
+END;
