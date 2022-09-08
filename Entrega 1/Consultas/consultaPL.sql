@@ -90,6 +90,27 @@ BEGIN
         DBMS_OUTPUT.Put_line('Pare!');
 END;
 
+/* 19. CREATE OR REPLACE TRIGGER (COMANDO)
+Trigger que dispara após inserção, atualização e deleção na tabela pedido e printa o tipo de operação realizada*/
+CREATE OR REPLACE TRIGGER alteracao_pedido
+BEFORE INSERT OR UPDATE OR DELETE
+ON pedido
+DECLARE 
+    operation_type VARCHAR2(15);
+BEGIN
+    CASE
+        WHEN INSERTING THEN
+            operation_type := 'Inserting';
+        WHEN UPDATING THEN
+            operation_type := 'Updating';
+        WHEN DELETING THEN
+            operation_type := 'Deleting';
+    END CASE;
+    
+    dbms_output.put_line(operation_type || ' realizado com sucesso');
+  
+END;
+
 /* 8.  IF ELSIF & 20. CREATE OR REPLACE TRIGGER (LINHA)
 Trigger que dispara após uma inserção ou atualização na tabela avalia e printa a avaliação da nota */
 CREATE OR REPLACE TRIGGER check_range
