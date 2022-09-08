@@ -185,7 +185,7 @@ END RH;
 /
 BEGIN
     RH.novo_funcionario();
-    RH.reajuste_salarial('empregado', '100000');
+    RH.reajuste_salarial();
 END;
 /
 
