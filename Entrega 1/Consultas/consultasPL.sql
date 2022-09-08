@@ -130,9 +130,9 @@ BEGIN
 END;
 
 /*
-    18/17 Criançao do PACKAGE + BODY
+    18/17 Criação do PACKAGE + BODY
     O package funciona como um RH, ele é responsável por chamar os métodos que contrata um novo funcionário como também
-    faz reajuste salario nas funções (tanto em empregado como no gerente)
+    faz reajuste de salario nas funções (tanto em empregado como no gerente)
     Quando ocorre o cadastro de um novo funcionário, também ocorre a adição dos parâmatros nas tabelas que ele depende (Usuario, Endereço).
 
     Caso queira testar:
