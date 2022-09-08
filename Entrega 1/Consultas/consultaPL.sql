@@ -128,3 +128,60 @@ BEGIN
     END IF;
 
 END;
+
+/*
+    18/17 Criançao do PACKAGE + BODY
+    O package funciona como um RH, ele é responsável por chamar os métodos que contrata um novo funcionário como também
+    faz reajuste salario nas funções (tanto em empregado como no gerente)
+    Quando ocorre o cadastro de um novo funcionário, também ocorre a adição dos parâmatros nas tabelas que ele depende (Usuario, Endereço).
+*/
+CREATE OR REPLACE PACKAGE RH AS
+PROCEDURE novo_funcionario(n_cpf_func Funcionario.cpf_func%TYPE,
+                           n_data_de_admissao Funcionario.data_de_admissao%TYPE,
+                           n_cpf_supervisor Funcionario.cpf_supervisor%TYPE,
+                           n_cargo Funcionario.cargo%TYPE,
+                           n_nome Usuario.nome%TYPE,
+                           n_cep_endereco Usuario.cep_endereco%TYPE,
+                           n_numero Usuario.numero_endereco%TYPE,
+                           n_rua Endereco.rua%TYPE);
+
+PROCEDURE reajuste_salarial(new_cargo Cargo_salario.cargo%TYPE,
+                            new_salario Cargo_salario.salario%TYPE);
+END RH;
+/
+CREATE OR REPLACE PACKAGE BODY RH AS
+PROCEDURE novo_funcionario(n_cpf_func Funcionario.cpf_func%TYPE,
+                           n_data_de_admissao Funcionario.data_de_admissao%TYPE,
+                           n_cpf_supervisor Funcionario.cpf_supervisor%TYPE,
+                           n_cargo Funcionario.cargo%TYPE,
+                           n_nome Usuario.nome%TYPE,
+                           n_cep_endereco Usuario.cep_endereco%TYPE,
+                           n_numero Usuario.numero_endereco%TYPE,
+                           n_rua Endereco.rua%TYPE) IS
+                           BEGIN
+                                INSERT INTO Endereco(cep, numero, rua) 
+                                VALUES (n_cep_endereco, n_numero, n_rua);
+                                
+                                INSERT INTO Usuario(cpf, nome, cep_endereco, numero_endereco) 
+                                VALUES (n_cpf_func, n_nome, n_cep_endereco, n_numero);
+                                
+                                INSERT INTO Funcionario(cpf_func, data_de_admissao, cpf_supervisor, cargo) 
+                                VALUES (n_cpf_func, n_data_de_admissao, n_cpf_supervisor, n_cargo);
+                           END novo_funcionario;
+PROCEDURE reajuste_salarial(new_cargo Cargo_salario.cargo%TYPE,
+                            new_salario Cargo_salario.salario%TYPE) IS
+                            BEGIN
+                                UPDATE Cargo_salario
+                                SET salario = new_salario
+                                WHERE cargo = new_cargo;
+                            END reajuste_salarial;
+END RH;
+/
+BEGIN
+    RH.novo_funcionario('09876543211', to_date('02/02/2021', 'dd/mm/yy'), '52942165459', 'empregado', 'Careca louco', '50201006', 1, 'Jose estila');
+    RH.reajuste_salarial('empregado', '100000');
+END;
+/
+
+SELECT * FROM Funcionario;
+SELECT * FROM Cargo_salario;
