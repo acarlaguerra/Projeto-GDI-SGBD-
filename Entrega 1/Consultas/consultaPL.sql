@@ -134,6 +134,12 @@ END;
     O package funciona como um RH, ele é responsável por chamar os métodos que contrata um novo funcionário como também
     faz reajuste salario nas funções (tanto em empregado como no gerente)
     Quando ocorre o cadastro de um novo funcionário, também ocorre a adição dos parâmatros nas tabelas que ele depende (Usuario, Endereço).
+
+    Caso queira testar:
+    RH.novo_funcionario('09876543211', to_date('02/02/2021', 'dd/mm/yy'), '52942165459', 'empregado', 'Careca louco', '50201006', 1, 'Jose estila');
+    RH.reajuste_salarial('empregado', '100000');
+    
+    Logo após pode verificar as tabelas modificadas (SELECT'S)
 */
 CREATE OR REPLACE PACKAGE RH AS
 PROCEDURE novo_funcionario(n_cpf_func Funcionario.cpf_func%TYPE,
@@ -178,7 +184,7 @@ PROCEDURE reajuste_salarial(new_cargo Cargo_salario.cargo%TYPE,
 END RH;
 /
 BEGIN
-    RH.novo_funcionario('09876543211', to_date('02/02/2021', 'dd/mm/yy'), '52942165459', 'empregado', 'Careca louco', '50201006', 1, 'Jose estila');
+    RH.novo_funcionario();
     RH.reajuste_salarial('empregado', '100000');
 END;
 /
