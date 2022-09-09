@@ -129,6 +129,40 @@ BEGIN
 
 END;
 
+/* 11. WHILE LOOP & 8. IF ELSE
+Contabiliza quantos pedidos foram feitos no cartão de débito e no pix*/
+DECLARE 
+    cnt BINARY_INTEGER;
+    q BINARY_INTEGER;
+    i BINARY_INTEGER;
+    aux_pagamento Pedido.forma_de_pagamento%TYPE;
+
+BEGIN
+    i := 1;
+    cnt := 0;
+    SELECT COUNT(*) INTO q FROM Pedido;
+    WHILE i < q LOOP
+        SELECT p.forma_de_pagamento INTO aux_pagamento
+        FROM Pedido p
+        WHERE p.ID_do_pedido = i;
+
+        IF aux_pagamento IN ('cartão de débito') THEN 
+            cnt := cnt + 1;
+        ELSIF aux_pagamento IN ('pix') THEN 
+            cnt := cnt + 1;
+        ELSE
+            cnt := cnt + 0;
+        END IF;
+        
+        i := i +1;
+
+    END LOOP;
+
+    DBMS_OUTPUT.Put_line('No total foram feitas ' || cnt || ' compras no pix ou boleto ');
+    
+END;
+
+
 /*
     18/17 Criação do PACKAGE + BODY
     O package funciona como um RH, ele é responsável por chamar os métodos que contrata um novo funcionário como também
