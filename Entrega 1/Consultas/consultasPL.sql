@@ -34,7 +34,12 @@ BEGIN
     END LOOP;
 END;
 
+<<<<<<< HEAD
 /* 4/16. PROCEDURE &  PARÂMETROS (IN, OUT OU IN OUT)
+=======
+
+/* 4/7/16. PROCEDURE &  ROWTYPE & PARÂMETROS (IN, OUT OU IN OUT) 
+>>>>>>> df6a1c88f1967d450ba4a46cca593d35cdc3f558
 Procedimento para cadastro de produto */
 CREATE OR REPLACE PROCEDURE cadastroProduto (aux IN Produto%ROWTYPE) IS
 BEGIN
@@ -111,23 +116,32 @@ BEGIN
   
 END;
 
-/* 8/20.  IF ELSIF & CREATE OR REPLACE TRIGGER (LINHA)
+/* 20. CREATE OR REPLACE TRIGGER (LINHA)
 Trigger que dispara após uma inserção ou atualização na tabela avalia e printa a avaliação da nota */
-CREATE OR REPLACE TRIGGER check_range
-AFTER INSERT OR UPDATE
-ON avalia
+CREATE OR REPLACE TRIGGER cancelar_depois_do_envio
+BEFORE DELETE  
+ON pedido
 FOR EACH ROW
-BEGIN
-
-    IF 1 <= :NEW.nota AND :NEW.nota < 3 THEN
-        dbms_output.put_line('Avaliação baixa');
-    ELSIF 3 <= :NEW.nota AND :NEW.nota <= 4 THEN
-        dbms_output.put_line('Avaliação razoável');
-    ELSE
-        dbms_output.put_line('Avaliação alta');
+DECLARE
+    dia VARCHAR2(2) := EXTRACT(day from sysdate);
+    mes VARCHAR2(2) := EXTRACT(month from sysdate);
+    id_pedido pedido.ID_do_pedido%TYPE := :OLD.ID_do_pedido;
+    data_invalida EXCEPTION;
+BEGIN 
+    IF dia >=  EXTRACT (day from :OLD.data_de_saida) AND mes >= EXTRACT (month from :OLD.data_de_saida)THEN
+        RAISE data_invalida;
+    ELSE    
+        DELETE FROM info_pedido
+        WHERE pedido = id_pedido;
+        
+        DELETE FROM Reclama
+        WHERE pedido_id = id_pedido;
+        
     END IF;
-
-END;
+EXCEPTION 
+WHEN data_invalida THEN
+    Raise_application_error(-20404, 'Pedido a caminho! Tentativa de cancelamento recusada');
+END;    
 
 /* 11/8. WHILE LOOP & IF ELSE
 Contabiliza quantos pedidos foram feitos no cartão de débito e no pix*/
