@@ -34,7 +34,7 @@ BEGIN
 END;
 
 
-/* 4/16. PROCEDURE &  PARÂMETROS (IN, OUT OU IN OUT)
+/* 4/7/16. PROCEDURE &  ROWTYPE & PARÂMETROS (IN, OUT OU IN OUT) 
 Procedimento para cadastro de produto */
 CREATE OR REPLACE PROCEDURE cadastroProduto (aux IN Produto%ROWTYPE) IS
 BEGIN
