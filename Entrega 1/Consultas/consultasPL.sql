@@ -1,4 +1,4 @@
-/* 1.USO DE RECORD & 3.BLOCO ANÔNIMO 
+/* 1/3. USO DE RECORD & BLOCO ANÔNIMO 
 Descrição: cria um novo endereço e insere no Banco de Dados */
 <<record_block>>
 DECLARE 
@@ -34,7 +34,7 @@ BEGIN
 END;
 
 
-/* 4. PROCEDURE &  16. PARÂMETROS (IN, OUT OU IN OUT)
+/* 4/16. PROCEDURE &  PARÂMETROS (IN, OUT OU IN OUT)
 Procedimento para cadastro de produto */
 CREATE OR REPLACE PROCEDURE cadastroProduto (aux IN Produto%ROWTYPE) IS
 BEGIN
@@ -44,7 +44,7 @@ END;
 
 
 /*
-    5/13/15 - CREATE FUNCTION + SELECT INTO + EXCEPTION WHEN
+    5/13/15.  CREATE FUNCTION + SELECT INTO + EXCEPTION WHEN
     Essa função visa pegar o salário de um funcionário dado o seu cpf.
     Caso o CPF não seja de um funcionário uma exception é lançada.
 */
@@ -65,7 +65,7 @@ CREATE OR REPLACE FUNCTION pegar_salario (cpfinho Usuario.cpf%TYPE)
 END;
 
 
-/* 10. LOOP EXIT WHEN & 14. CURSOR(OPEN, FETCH E CLOSE)
+/* 10/14. LOOP EXIT WHEN & CURSOR(OPEN, FETCH E CLOSE)
 Lista o nome E o cpf dos clientes que possuem conta premium*/
 DECLARE
     v_nome Usuario.nome%TYPE;
@@ -90,7 +90,7 @@ BEGIN
         DBMS_OUTPUT.Put_line('Pare!');
 END;
 
-/* 19. CREATE OR REPLACE TRIGGER (COMANDO) 9. CASE WHEN
+/* 19/9. CREATE OR REPLACE TRIGGER (COMANDO) & CASE WHEN
 Trigger que dispara após inserção, atualização e deleção na tabela pedido e printa o tipo de operação realizada*/
 CREATE OR REPLACE TRIGGER alteracao_pedido
 BEFORE INSERT OR UPDATE OR DELETE
@@ -111,7 +111,7 @@ BEGIN
   
 END;
 
-/* 8.  IF ELSIF & 20. CREATE OR REPLACE TRIGGER (LINHA)
+/* 8/20.  IF ELSIF & CREATE OR REPLACE TRIGGER (LINHA)
 Trigger que dispara após uma inserção ou atualização na tabela avalia e printa a avaliação da nota */
 CREATE OR REPLACE TRIGGER check_range
 AFTER INSERT OR UPDATE
@@ -129,7 +129,7 @@ BEGIN
 
 END;
 
-/* 11. WHILE LOOP & 8. IF ELSE
+/* 11/8. WHILE LOOP & IF ELSE
 Contabiliza quantos pedidos foram feitos no cartão de débito e no pix*/
 DECLARE 
     cnt BINARY_INTEGER;
@@ -164,7 +164,7 @@ END;
 
 
 /*
-    18/17 Criação do PACKAGE + BODY
+    18/17. Criação do PACKAGE + BODY
     O package funciona como um RH, ele é responsável por chamar os métodos que contrata um novo funcionário como também
     faz reajuste de salario nas funções (tanto em empregado como no gerente)
     Quando ocorre o cadastro de um novo funcionário, também ocorre a adição dos parâmatros nas tabelas que ele depende (Usuario, Endereço).
