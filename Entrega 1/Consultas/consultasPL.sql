@@ -34,12 +34,9 @@ BEGIN
     END LOOP;
 END;
 
-<<<<<<< HEAD
-/* 4/16. PROCEDURE &  PARÂMETROS (IN, OUT OU IN OUT)
-=======
+
 
 /* 4/7/16. PROCEDURE &  ROWTYPE & PARÂMETROS (IN, OUT OU IN OUT) 
->>>>>>> df6a1c88f1967d450ba4a46cca593d35cdc3f558
 Procedimento para cadastro de produto */
 CREATE OR REPLACE PROCEDURE cadastroProduto (aux IN Produto%ROWTYPE) IS
 BEGIN
