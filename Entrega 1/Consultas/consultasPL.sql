@@ -16,7 +16,8 @@ END record_block;
 
 
 /* 
-    2/6/12. USO DE ESTRUTURA DE DADOS DO TIPO TABLE + %TYPE + FOR in LOOP;
+    2/6/12. USO DE ESTRUTURA DE DADOS DO TIPO TABLE + %TYPE + FOR in LOOP
+    Faz a cópia do tipo da tabela de Produto.nome e printa todos os produtos
 */
 DECLARE
     TYPE produtos_type IS TABLE OF Produto.nome%TYPE
@@ -32,7 +33,6 @@ BEGIN
         i := i + 1;
     END LOOP;
 END;
-
 
 /* 4/16. PROCEDURE &  PARÂMETROS (IN, OUT OU IN OUT)
 Procedimento para cadastro de produto */
