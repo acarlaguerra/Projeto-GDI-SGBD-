@@ -118,7 +118,6 @@ ORDER BY frete;
 
 /* 18. SUBCONSULTA COM IN
 Consulta que retorna o nome das empresas que seus produtos receberam ao menos uma avaliação >= 4
-lembrar de discutir se junta SUBCONSULTA COM OPERADOR RELACIONAL aqui
 */
 SELECT DISTINCT E.nome_fantasia
 FROM avalia A
@@ -169,7 +168,7 @@ INNER JOIN cliente C
 GROUP BY C.tipo_de_assinatura;
 
 
-/* 23. HAVING (REVISAR)
+/* 23. HAVING 
 Consulta que retorna apenas os pedidos que possuem mais de 2 produtos */
 SELECT pedido, COUNT(pedido) AS qtd_produtos
 FROM Info_pedido

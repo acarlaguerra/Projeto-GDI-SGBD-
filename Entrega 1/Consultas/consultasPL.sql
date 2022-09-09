@@ -37,7 +37,7 @@ END;
 
 
 /* 4/7/16. PROCEDURE &  ROWTYPE & PARÂMETROS (IN, OUT OU IN OUT) 
-Procedimento para cadastro de produto */
+Procedimento para cadastro de novo produto em uma loja já existente */
 CREATE OR REPLACE PROCEDURE cadastroProduto (aux IN Produto%ROWTYPE) IS
 BEGIN
     INSERT INTO Produto(cnpj_loja, nome, estoque, preco)
@@ -114,31 +114,45 @@ BEGIN
 END;
 
 /* 20. CREATE OR REPLACE TRIGGER (LINHA)
-Trigger que dispara após uma inserção ou atualização na tabela avalia e printa a avaliação da nota */
+Trigger que dispara antes de uma deleção de um pedido */
 CREATE OR REPLACE TRIGGER cancelar_depois_do_envio
-BEFORE DELETE  
+BEFORE DELETE
 ON pedido
 FOR EACH ROW
 DECLARE
     dia VARCHAR2(2) := EXTRACT(day from sysdate);
     mes VARCHAR2(2) := EXTRACT(month from sysdate);
+    ano VARCHAR2(4) := EXTRACT(year from sysdate);
     id_pedido pedido.ID_do_pedido%TYPE := :OLD.ID_do_pedido;
     data_invalida EXCEPTION;
 BEGIN 
-    IF dia >=  EXTRACT (day from :OLD.data_de_saida) AND mes >= EXTRACT (month from :OLD.data_de_saida)THEN
+    IF dia >=  EXTRACT (day from :OLD.data_de_saida) 
+    AND mes >= EXTRACT (month from :OLD.data_de_saida)
+    AND ano >= EXTRACT (year from :OLD.data_de_saida) THEN
         RAISE data_invalida;
-    ELSE    
+    ELSE
         DELETE FROM info_pedido
         WHERE pedido = id_pedido;
-        
+
         DELETE FROM Reclama
         WHERE pedido_id = id_pedido;
-        
+
     END IF;
 EXCEPTION 
 WHEN data_invalida THEN
     Raise_application_error(-20404, 'Pedido a caminho! Tentativa de cancelamento recusada');
-END;    
+END;
+
+/* Teste
+SELECT * FROM PEDIDO
+
+UPDATE pedido
+SET data_de_saida = to_date('08/09/10', 'dd/mm/yy')
+WHERE transportadora = '44035551046395'
+
+DELETE FROM pedido
+WHERE ID_do_pedido = 1
+*/    
 
 /* 11/8. WHILE LOOP & IF ELSE
 Contabiliza quantos pedidos foram feitos no cartão de débito e no pix*/
