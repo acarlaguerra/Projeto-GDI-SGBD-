@@ -116,20 +116,20 @@ CREATE OR REPLACE TYPE tp_supervisor AS OBJECT (
     supervisionado REF tp_funcionario
 );
 /
--- -- NESTED TABLE ----------------------------------------------------------------
-CREATE OR REPLACE TYPE tp_fone_empresa AS OBJECT(
-    ddd VARCHAR2(255),
-    fone VARCHAR2 (255)
-);
-/ 
-CREATE OR REPLACE TYPE tp_nt_fone AS TABLE OF tp_fone_empresa;
-/
+-- -- -- NESTED TABLE ----------------------------------------------------------------
+-- CREATE OR REPLACE TYPE tp_fone_empresa AS OBJECT(
+--     ddd VARCHAR2(255),
+--     fone VARCHAR2 (255)
+-- );
+-- / 
+-- CREATE OR REPLACE TYPE tp_nt_fone AS TABLE OF tp_fone_empresa;
+-- /
 -- Empresa ---------------------------------------------------------------------
 -- deveriamos fazer a nested table aq?
 CREATE OR REPLACE TYPE tp_empresa AS OBJECT(
     cnpj VARCHAR2(14),
     nome_fantasia VARCHAR2(255),
-    lista_fone tp_nt_fone
+    fone VARCHAR2(14)
 )NOT FINAL NOT INSTANTIABLE;
 /
 --------------------------------------------------------------------------------
@@ -140,36 +140,40 @@ CREATE OR REPLACE TYPE tp_categorias AS OBJECT(
     categoria VARCHAR2(255)
 );
 /
--- VARRAY de Categorias --------------------------------------------------------
-CREATE OR REPLACE TYPE varr_tp_categorias AS VARRAY (2) OF tp_categorias;
+-- NESTED TABLE de Categorias --------------------------------------------------------
+CREATE OR REPLACE TYPE varray_tp_categorias AS VARRAY (6) OF tp_categorias;
 /
 --------------------------------------------------------------------------------
 
 -- Loja (Herda de empresa) -----------------------------------------------------
 
 CREATE OR REPLACE TYPE tp_loja UNDER tp_empresa (
-    categoria varr_tp_categorias
+    categoria varray_tp_categorias
 );
 /
 -- Transportadora (Herda de empresa) -------------------------------------------
 CREATE OR REPLACE TYPE tp_transportadora UNDER tp_empresa(
     frete NUMBER
 );
+-- NESTED TABLE (NOTAS) --------------------------------------------------------
 /
-CREATE OR REPLACE TYPE tp_nomes AS OBJECT (
-    nome_produto VARCHAR2(255)
+CREATE OR REPLACE TYPE tp_notas AS OBJECT (
+    notas NUMBER
 );
+/
+CREATE OR REPLACE TYPE tp_nt_notas AS TABLE OF tp_notas;
 /
 -- Produto -------------------------------------------------------------------
 CREATE OR REPLACE TYPE tp_produto AS OBJECT(
     cnpj_loja REF tp_loja,
     cod_identificacao VARCHAR(255),
-    nomes tp_nomes,
+    nomes VARCHAR2(255),
     estoque NUMBER,
     preco NUMBER,
-    media NUMBER,
+    notas tp_nt_notas,
     ORDER MEMBER FUNCTION compara_preco (SELF IN OUT NOCOPY tp_produto, p tp_produto) RETURN NUMBER
 );
+---------------------------------------------------------------------------------
 /
 CREATE OR REPLACE TYPE BODY tp_produto AS 
     ORDER MEMBER FUNCTION compara_preco (SELF IN OUT NOCOPY tp_produto, p tp_produto) RETURN NUMBER IS
@@ -191,9 +195,8 @@ CREATE OR REPLACE TYPE tp_pedido AS OBJECT(
     quantidade NUMBER,
     forma_de_pagamento VARCHAR2(255),
     data_da_compra DATE,
-    -- Referenciando as entidades associadas a "pedido"
     pedido_transportadora REF tp_transportadora,
-    -- pedido_funcionario REF tp_funcionario, -- prolema 
+    pedido_loja REF tp_loja,
     pedido_cliente REF tp_cliente,
     pedido_produto REF tp_produto
 );
