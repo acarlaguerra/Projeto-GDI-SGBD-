@@ -53,26 +53,27 @@ INSERT INTO tb_funcionario VALUES (
 /
 -- Supervisores -----------------------------------------------------------------------
 
+
 INSERT INTO tb_supervisor VALUES (
-    tp_supervisor(SELECT REF(F) FROM tb_funcionario F
-                  WHERE F.cpf = '12462142598',
-                  SELECT REF(F) FROM tb_funcionario F
-                  WHERE F.cpf = '49114589178'
+    tp_supervisor((SELECT REF(F) FROM tb_funcionario F
+                  WHERE F.cpf = '12462142598'),
+                  (SELECT REF(F) FROM tb_funcionario F
+                  WHERE F.cpf = '49114589178')
     )
 );
 INSERT INTO tb_supervisor VALUES (
-    tp_supervisor(SELECT REF(F) FROM tb_funcionario F
-                  WHERE F.cpf = '12462142598',
-                  SELECT REF(F) FROM tb_funcionario F
-                  WHERE F.cpf = '97645132896'
+    tp_supervisor((SELECT REF(F) FROM tb_funcionario F
+                  WHERE F.cpf = '12462142598'),
+                  (SELECT REF(F) FROM tb_funcionario F
+                  WHERE F.cpf = '97645132896')
     )
 );
 /
 -- TESTAR
 INSERT INTO tb_supervisor VALUES (
     tp_supervisor(NULL,
-                  SELECT REF(F) FROM tb_funcionario F
-                  WHERE F.cpf = '12462142598'
+                  (SELECT REF(F) FROM tb_funcionario F
+                  WHERE F.cpf = '12462142598')
     )
 );
 /
@@ -218,8 +219,8 @@ INSERT INTO tb_transportadora VALUES (
 -- Produto ----------------------------------------------------------------------------
 
 INSERT INTO tb_produto VALUES (
-    tp_produto(SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '11223344556677',
+    tp_produto((SELECT REF(P) FROM tb_loja
+               WHERE P.cnpj = '11223344556677'),
                '000',
                'Design Thinking',
                100,
@@ -236,8 +237,8 @@ INSERT INTO tb_produto VALUES (
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto(SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '11223344556677',
+    tp_produto((SELECT REF(P) FROM tb_loja
+               WHERE P.cnpj = '11223344556677'),
                '001',
                'Design for Kids',
                120,
@@ -254,8 +255,8 @@ INSERT INTO tb_produto VALUES (
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto(SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '11223344556677',
+    tp_produto((SELECT REF(P) FROM tb_loja
+               WHERE P.cnpj = '11223344556677'),
                '002',
                'Aprovação',
                1,
@@ -272,8 +273,8 @@ INSERT INTO tb_produto VALUES (
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto(SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '11223344556677',
+    tp_produto((SELECT REF(P) FROM tb_loja
+               WHERE P.cnpj = '11223344556677'),
                '003',
                'Abridor de lata',
                50,
@@ -290,8 +291,8 @@ INSERT INTO tb_produto VALUES (
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto(SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '11223344556677',
+    tp_produto((SELECT REF(P) FROM tb_loja
+               WHERE P.cnpj = '11223344556677'),
                '004',
                'Mesinha',
                14,
@@ -308,8 +309,8 @@ INSERT INTO tb_produto VALUES (
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto(SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '11223344556677',
+    tp_produto((SELECT REF(P) FROM tb_loja
+               WHERE P.cnpj = '11223344556677'),
                '005',
                'Cadeira Ergonômica',
                50,
@@ -327,8 +328,8 @@ INSERT INTO tb_produto VALUES (
 /
 -- Nivan inutilidades
 INSERT INTO tb_produto VALUES (
-    tp_produto(SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '12345678967890',
+    tp_produto((SELECT REF(P) FROM tb_loja
+               WHERE P.cnpj = '12345678967890'),
                '004',
                '30 minutos no tempo de prova',
                1,
@@ -345,8 +346,8 @@ INSERT INTO tb_produto VALUES (
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto(SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '12345678967890',
+    tp_produto((SELECT REF(P) FROM tb_loja
+               WHERE P.cnpj = '12345678967890'),
                '005',
                'Casaco anti-trapaça na prova',
                250,
@@ -363,8 +364,8 @@ INSERT INTO tb_produto VALUES (
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto(SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '12345678967890',
+    tp_produto((SELECT REF(P) FROM tb_loja
+               WHERE P.cnpj = '12345678967890'),
                '006',
                'Matemática discreta para leigos',
                100,
@@ -382,8 +383,8 @@ INSERT INTO tb_produto VALUES (
 /
 -- adriano (acessórios / eletrônicos)
 INSERT INTO tb_produto VALUES (
-    tp_produto(SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '09876543211234',
+    tp_produto((SELECT REF(P) FROM tb_loja
+               WHERE P.cnpj = '09876543211234'),
                '111',
                'Processador MIPS',
                250,
@@ -400,8 +401,8 @@ INSERT INTO tb_produto VALUES (
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto(SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '09876543211234',
+    tp_produto((SELECT REF(P) FROM tb_loja
+               WHERE P.cnpj = '09876543211234'),
                '112',
                'Super memória DD8',
                1000,
@@ -418,8 +419,8 @@ INSERT INTO tb_produto VALUES (
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto(SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '09876543211234',
+    tp_produto((SELECT REF(P) FROM tb_loja
+               WHERE P.cnpj = '09876543211234'),
                '851',
                'Mouse programado em Verilog',
                64,
@@ -446,58 +447,58 @@ INSERT INTO tb_pedido VALUES (tp_pedido(id.NEXTVAL,
                               4,
                               'pix',
                               to_date('20/09/2022', 'dd/mm/yy'),
-                              SELECT REF(T) FROM tb_transportadora T
-                              WHERE T.cnpj = '94586194527946',
-                              SELECT REF(L) FROM tb_loja L
-                              WHERE T.cnpj = '09876543211234',
-                              SELECT REF(C) FROM tb_cliente C
-                              WHERE T.cpf = '21',
-                              SELECT REF(P) FROM tb_produto P
-                              WHERE T.cod_identificacao = '000'               
+                              (SELECT REF(T) FROM tb_transportadora T
+                              WHERE T.cnpj = '94586194527946'),
+                              (SELECT REF(L) FROM tb_loja L
+                              WHERE T.cnpj = '09876543211234'),
+                              (SELECT REF(C) FROM tb_cliente C
+                              WHERE T.cpf = '21'),
+                              (SELECT REF(P) FROM tb_produto P
+                              WHERE T.cod_identificacao = '000')               
     )
 );
 /
 INSERT INTO tb_pedido VALUES (tp_pedido(id.NEXTVAL,
                               4,
                               'cartão de crédito',
-                              to_date('20/09/2022', 'dd/mm;yy'),
-                              SELECT REF(T) FROM tb_transportadora T
-                              WHERE T.cnpj = '94586194527946',
-                              SELECT REF(L) FROM tb_loja L
-                              WHERE T.cnpj = '12345678967890',
-                              SELECT REF(C) FROM tb_cliente C
-                              WHERE T.cpf = '20',
-                              SELECT REF(P) FROM tb_produto P
-                              WHERE T.cod_identificacao = '001'                 
-    
+                              to_date('20/09/2022', 'dd/mm/yy'),
+                              (SELECT REF(T) FROM tb_transportadora T
+                              WHERE T.cnpj = '94586194527946'),
+                              (SELECT REF(L) FROM tb_loja L
+                              WHERE T.cnpj = '12345678967890'),
+                              (SELECT REF(C) FROM tb_cliente C
+                              WHERE T.cpf = '20'),
+                              (SELECT REF(P) FROM tb_produto P
+                              WHERE T.cod_identificacao = '001')
+    )
 );
 /
 INSERT INTO tb_pedido VALUES (tp_pedido(id.NEXTVAL,
                               4,
                               'boleto',
-                              to_date('20/09/2022', 'dd/mm;yy'),
-                              SELECT REF(T) FROM tb_transportadora T
-                              WHERE T.cnpj = '87451378946514',
-                              SELECT REF(L) FROM tb_loja L
-                              WHERE T.cnpj = '11223344556677',
-                              SELECT REF(C) FROM tb_cliente C
-                              WHERE T.cpf = '24',
-                              SELECT REF(P) FROM tb_produto P
-                              WHERE T.cod_identificacao = '002',                 
+                              to_date('20/09/2022', 'dd/mm/yy'),
+                              (SELECT REF(T) FROM tb_transportadora T
+                              WHERE T.cnpj = '87451378946514'),
+                              (SELECT REF(L) FROM tb_loja L
+                              WHERE T.cnpj = '11223344556677'),
+                              (SELECT REF(C) FROM tb_cliente C
+                              WHERE T.cpf = '24'),
+                              (SELECT REF(P) FROM tb_produto P
+                              WHERE T.cod_identificacao = '002'),                 
     )
 );
 /
 INSERT INTO tb_pedido VALUES (tp_pedido(id.NEXTVAL,
                               4,
                               'cartão de débito',
-                              to_date('20/09/2022', 'dd/mm;yy'),
-                              SELECT REF(T) FROM tb_transportadora T
-                              WHERE T.cnpj = '87451378946514',
-                              SELECT REF(L) FROM tb_loja L
-                              WHERE T.cnpj = '12345678967890',
-                              SELECT REF(C) FROM tb_cliente C
-                              WHERE T.cpf = '22',
-                              SELECT REF(P) FROM tb_produto P
-                              WHERE T.cod_identificacao = '003',                 
+                              to_date('20/09/2022', 'dd/mm/yy'),
+                              (SELECT REF(T) FROM tb_transportadora T
+                              WHERE T.cnpj = '87451378946514'),
+                              (SELECT REF(L) FROM tb_loja L
+                              WHERE T.cnpj = '12345678967890'),
+                              (SELECT REF(C) FROM tb_cliente C
+                              WHERE T.cpf = '22'),
+                              (SELECT REF(P) FROM tb_produto P
+                              WHERE T.cod_identificacao = '003'),       
     )
 );
