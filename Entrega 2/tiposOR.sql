@@ -1,3 +1,16 @@
+/*
+    RODANDO SEM BUGS, PORÉEMMMM:
+    1 -> Função ORDER NÃO PODE SER DEFINIDA EM SUBTIPOS como tava sendo feito em transportadora
+    2 -> MEMBER FUNCTION TAMBÉM NÃO DÁ PRA CRIAR EM SUBTIPO TEM Q SER NA ROOT
+    3 -> CRIEI UMA NESTED TABLE PARA FONE DAS EMPRESAS E ADICIONEI O DDD PRA FICAR DIFERENTE DO tp_fone
+      do user.
+    4 -> Entidade fraca (PRODUTO): cloquei uma REF para a tp_produto, para saber de qual loja aquele produto é
+      faz sentido???/ (eu não sei :D)
+    5 -> tp_pedido: tava dando problema com o REF do tp_funcionario, não entendi muito bem o pq mas tá ai p
+      resolver
+    by: bill <3
+*/
+
 -- Endereço 
 
 CREATE OR REPLACE TYPE tp_endereco AS OBJECT(
@@ -27,24 +40,25 @@ CREATE OR REPLACE TYPE tp_usuario AS OBJECT (
     nome VARCHAR2(255),
     telefone varr_tp_fone,
     endereco tp_endereco,
-    MEMBER PROCEDURE mostrar_info
+    MEMBER PROCEDURE mostrar_info,
+    FINAL MAP MEMBER FUNCTION qtd_num_telefone RETURN NUMBER -- isso tem que ser criado na root
 ) NOT FINAL NOT INSTANTIABLE;
-/
+
 -------------------------------------------------------------------------------
 
--- Cliente --------------------------------------------------------------------
-
+-- Cliente (Herda de Usuário) -------------------------------------------------
+/
 CREATE OR REPLACE TYPE tp_cliente UNDER tp_usuario (   
-    tipo_de_assinatura VARCHAR2(255),
+    tipo_de_assinatura VARCHAR2 (255),
     OVERRIDING MEMBER PROCEDURE mostrar_info,
-    CONSTRUCTOR FUNCTION tp_cliente (c tp_cliente) RETURN SELF AS RESULT,
-    FINAL MAP MEMBER FUNCTION qtd_num_telefone return NUMBER
+    CONSTRUCTOR FUNCTION tp_cliente(c tp_cliente) RETURN SELF AS RESULT
+    -- OVERRIDING FINAL MAP MEMBER FUNCTION qtd_num_telefone RETURN NUMBER -- isso deveria ter sido criado na root (user)
 );
 
 /
 
 CREATE OR REPLACE TYPE BODY tp_cliente AS
-    CONSTRUCTOR FUNCTION tp_cliente (c tp_cliente) RETURN SELF AS RESULT
+    CONSTRUCTOR FUNCTION tp_cliente(c tp_cliente) RETURN SELF AS RESULT
     BEGIN
         cpf := c.cpf;
         nome := c.nome;
@@ -94,45 +108,50 @@ CREATE OR REPLACE TYPE BODY tp_funcionario AS
         dbms_output.put_line(self.tipo_de_assinatura);
     END;    
 END;
-
-
-
--- Empresa
-
+--------------------------------------------------------------------------------
+/
+-- NESTED TABLE ----------------------------------------------------------------
+CREATE OR REPLACE TYPE tp_fone_empresa AS OBJECT(
+    ddd VARCHAR2(255),
+    fone VARCHAR2 (255)
+);
+/ 
+CREATE OR REPLACE TYPE tp_nt_fone AS TABLE OF tp_fone_empresa;
+/
+-- Empresa ---------------------------------------------------------------------
+-- deveriamos fazer a nested table aq?
 CREATE OR REPLACE TYPE tp_empresa AS OBJECT(
     cnpj VARCHAR2(14),
     nome_fantasia VARCHAR2(255),
-    fone tp_fone
+    fone tp_nt_fone
 )NOT FINAL NOT INSTANTIABLE;
 /
-
--- Categorias
+--------------------------------------------------------------------------------
+/
+-- Categorias ------------------------------------------------------------------
 
 CREATE OR REPLACE TYPE tp_categorias AS OBJECT(
     categoria VARCHAR2(255)
 );
 /
-
--- VARRAY de Categorias
+-- VARRAY de Categorias --------------------------------------------------------
 CREATE OR REPLACE TYPE varr_tp_categorias AS VARRAY (2) OF tp_categorias;
 /
+--------------------------------------------------------------------------------
 
--- Loja
+-- Loja (Herda de empresa) -----------------------------------------------------
 
-CREATE OR REPLACE TYPE tp_loja UNDER tp_empresa(
+CREATE OR REPLACE TYPE tp_loja UNDER tp_empresa (
     categoria varr_tp_categorias
 );
 /
-
--- Transportadora 
-
+-- Transportadora (Herda de empresa) -------------------------------------------
 CREATE OR REPLACE TYPE tp_transportadora UNDER tp_empresa(
     frete NUMBER
-    ORDER MEMBER FUNCTION compara_frete (SELF IN OUT NOCOPY tp_transportadora, t tp_transportadora) RETURN NUMBER
+    -- OVERRIDING ORDER MEMBER FUNCTION compara_frete (SELF IN OUT NOCOPY tp_transportadora, t tp_transportadora) RETURN NUMBER -- a função deve ser criada na root
 );
 /
-
-CREATE OR REPLACE BODY tp_transportadora AS 
+CREATE OR REPLACE TYPE BODY tp_transportadora AS 
     ORDER MEMBER FUNCTION compara_frete (SELF IN OUT NOCOPY tp_transportadora, t tp_transportadora) RETURN NUMBER IS
     BEGIN
         IF self.frete > t.frete THEN 
@@ -144,31 +163,35 @@ CREATE OR REPLACE BODY tp_transportadora AS
         END IF;
     END;
 END;
-
--- Pedido
+--------------------------------------------------------------------------------
+/
+-- Produto -------------------------------------------------------------------
+CREATE OR REPLACE TYPE tp_produto AS OBJECT(
+    cnpj_loja REF tp_loja,
+    cod_identificacao VARCHAR(255),
+    nome VARCHAR2(255),
+    estoque NUMBER,
+    preco NUMBER,
+    media NUMBER
+);
+/
+-- Pedido ----------------------------------------------------------------------
 CREATE OR REPLACE TYPE tp_pedido AS OBJECT(
     ID_do_pedido INTEGER,
     quantidade NUMBER,
     forma_de_pagamento VARCHAR2(255),
     data_da_compra DATE,
-    
     -- Referenciando as entidades associadas a "pedido"
     pedido_transportadora REF tp_transportadora,
-    pedido_funcionario REF tp_funcionario,
+    -- pedido_funcionario REF tp_funcionario, -- prolema 
     pedido_cliente REF tp_cliente,
     pedido_produto REF tp_produto
 );
+------------------------------------------------------------------------------
 /
 
--- ADICIONA O ATRIBUTO EMAIL EM EMPRESA  SEUS DEPENDENTES
+-- ADICIONA O ATRIBUTO EMAIL EM EMPRESA  SEUS DEPENDENTES --------------------
 ALTER TYPE tp_empresa ADD ATTRIBUTE (email VARCHAR2(255)) CASCADE;
+------------------------------------------------------------------------------
 
--- Produto
-CREATE OR REPLACE TYPE tp_produto AS OBJECT(
-    cnpj_loja VARCHAR2(14),
-    nome VARCHAR2(255),
-    estoque NUMBER,
-    preco NUMBER
-);
-/
 
