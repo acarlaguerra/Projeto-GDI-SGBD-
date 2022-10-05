@@ -49,17 +49,16 @@ CREATE OR REPLACE TYPE BODY to_usuario AS
         RETURN COUNT_ELEMENTS(self.telefone);
     END;
 END;
-
+/
 -------------------------------------------------------------------------------
 
 -- Cliente (Herda de Usuário) -------------------------------------------------
-/
+
 CREATE OR REPLACE TYPE tp_cliente UNDER tp_usuario (   
     tipo_de_assinatura VARCHAR2 (255),
     OVERRIDING MEMBER PROCEDURE mostrar_info,
     CONSTRUCTOR FUNCTION tp_cliente(c tp_cliente) RETURN SELF AS RESULT
 );
-
 /
 
 CREATE OR REPLACE TYPE BODY tp_cliente AS
@@ -78,13 +77,13 @@ CREATE OR REPLACE TYPE BODY tp_cliente AS
         dbms_output.put_line(self.tipo_de_assinatura);
     END;
 END;
+/
    
 --------------------------------------------------------------------------------
 
 -- Funcionário -----------------------------------------------------------------
 
 CREATE OR REPLACE TYPE tp_funcionario UNDER tp_usuario (
-    supervisor VARCHAR2(11), 
     salario NUMBER, 
     data_de_admissao DATE,
     cargo VARCHAR2(255),
@@ -92,6 +91,7 @@ CREATE OR REPLACE TYPE tp_funcionario UNDER tp_usuario (
     MEMBER FUNCTION salario_anual RETURN NUMBER,
     OVERRIDING MEMBER PROCEDURE mostrar_info
 );
+/
 
 CREATE OR REPLACE TYPE BODY tp_funcionario AS
     MEMBER PROCEDURE aumenta_salario (SELF IN OUT NOCOPY tp_funcionario, input NUMBER) IS
@@ -111,8 +111,12 @@ CREATE OR REPLACE TYPE BODY tp_funcionario AS
 END;
 /
 --------------------------------------------------------------------------------
-
--- NESTED TABLE ----------------------------------------------------------------
+CREATE OR REPLACE TYPE tp_supervisor AS OBJECT (
+    supervisor REF tp_funcionario,
+    supervisionado REF tp_funcionario
+);
+/
+-- -- NESTED TABLE ----------------------------------------------------------------
 CREATE OR REPLACE TYPE tp_fone_empresa AS OBJECT(
     ddd VARCHAR2(255),
     fone VARCHAR2 (255)
@@ -125,7 +129,7 @@ CREATE OR REPLACE TYPE tp_nt_fone AS TABLE OF tp_fone_empresa;
 CREATE OR REPLACE TYPE tp_empresa AS OBJECT(
     cnpj VARCHAR2(14),
     nome_fantasia VARCHAR2(255),
-    fone tp_nt_fone
+    lista_fone tp_nt_fone
 )NOT FINAL NOT INSTANTIABLE;
 /
 --------------------------------------------------------------------------------
@@ -152,11 +156,15 @@ CREATE OR REPLACE TYPE tp_transportadora UNDER tp_empresa(
     frete NUMBER
 );
 /
+CREATE OR REPLACE TYPE tp_nomes AS OBJECT (
+    nome_produto VARCHAR2(255)
+);
+/
 -- Produto -------------------------------------------------------------------
 CREATE OR REPLACE TYPE tp_produto AS OBJECT(
     cnpj_loja REF tp_loja,
     cod_identificacao VARCHAR(255),
-    nome VARCHAR2(255),
+    nomes tp_nomes,
     estoque NUMBER,
     preco NUMBER,
     media NUMBER,
@@ -176,6 +184,7 @@ CREATE OR REPLACE TYPE BODY tp_produto AS
     END;
 END;
 /
+
 -- Pedido ----------------------------------------------------------------------
 CREATE OR REPLACE TYPE tp_pedido AS OBJECT(
     ID_do_pedido INTEGER,
