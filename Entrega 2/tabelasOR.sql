@@ -65,9 +65,9 @@ CREATE TABLE tb_pedido OF tp_pedido (
     quantidade NOT NULL,
     forma_de_pagamento NOT NULL,
     data_da_compra NOT NULL,
-    transportadora WITH ROWID REFERENCES tb_transportadora NOT NULL, 
+    pedido_transportadora WITH ROWID REFERENCES tb_transportadora NOT NULL, 
     -- devemos colocar?
     -- pedido_funcionario REF tp_funcionario, -- PRECISAMOS TER A REF PARA FUNCIONÁRIO?
-    cliente WITH ROWID REFERENCES tb_cliente,
-    produto WITH ROWID REFERENCES tb_produto
+    pedido_cliente WITH ROWID REFERENCES tb_cliente,
+    pedido_produto WITH ROWID REFERENCES tb_produto
 );
