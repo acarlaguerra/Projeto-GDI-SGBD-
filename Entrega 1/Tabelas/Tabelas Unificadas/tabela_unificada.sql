@@ -1,18 +1,18 @@
-DROP TABLE Endereco;
-DROP TABLE Usuario;
-DROP TABLE Cliente;
-DROP TABLE Funcionario;
-DROP TABLE Cargo_salario;
-DROP TABLE Empresa;
-DROP TABLE Transportadora;
-DROP TABLE Loja;
-DROP TABLE Produto;
-DROP TABLE Pedido;
-DROP TABLE Avalia;
-DROP TABLE Reclama;
-DROP TABLE Telefone_Usuario;
-DROP TABLE Telefone_empresa;
-DROP TABLE Categorias_loja;
+-- DROP TABLE Endereco;
+-- DROP TABLE Usuario;
+-- DROP TABLE Cliente;
+-- DROP TABLE Funcionario;
+-- DROP TABLE Cargo_salario;
+-- DROP TABLE Empresa;
+-- DROP TABLE Transportadora;
+-- DROP TABLE Loja;
+-- DROP TABLE Produto;
+-- DROP TABLE Pedido;
+-- DROP TABLE Avalia;
+-- DROP TABLE Reclama;
+-- DROP TABLE Telefone_Usuario;
+-- DROP TABLE Telefone_empresa;
+-- DROP TABLE Categorias_loja;
 
 CREATE TABLE Endereco (
     cep VARCHAR2(8) NOT NULL,
@@ -41,6 +41,12 @@ CREATE TABLE Cliente( -- herda de Usuario
     CONSTRAINT cliente_fk FOREIGN KEY (cpf_cliente) REFERENCES Usuario(cpf)
 );
 
+CREATE TABLE Cargo_salario (
+    cargo VARCHAR2(255) NOT NULL,
+    salario NUMBER NOT NULL CHECK (salario >= 1212),
+    CONSTRAINT cargo_pk PRIMARY KEY (cargo)
+);
+
 
 CREATE TABLE Funcionario(
     cpf_func VARCHAR2(11) NOT NULL,
@@ -50,14 +56,8 @@ CREATE TABLE Funcionario(
     
     CONSTRAINT funcionario_pk PRIMARY KEY (cpf_func),
     CONSTRAINT funcionario_fk FOREIGN KEY (cpf_func) REFERENCES Usuario(cpf),
-    CONSTRAINT funcionario_fk1 FOREIGN KEY (cpf_supervisor) REFERENCES Funcionario(cpf_func)
-);
-
-
-CREATE TABLE Cargo_salario (
-    cargo VARCHAR2(255) NOT NULL,
-    salario NUMBER NOT NULL CHECK (salario >= 1212),
-    CONSTRAINT cargo_pk PRIMARY KEY (cargo)
+    CONSTRAINT funcionario_fk1 FOREIGN KEY (cpf_supervisor) REFERENCES Usuario(cpf),
+    CONSTRAINT cargo_fk FOREIGN KEY(cargo) REFERENCES Cargo_salario(cargo)
 );
 
 
@@ -84,7 +84,6 @@ CREATE TABLE Loja( -- Herda de empresa
 
 -- Alteração na PK onde tinhamos identicacao como PK composta junto com cnpj, tiramos e colocamos nome do produto
 CREATE TABLE Produto(
-    -- identificacao INTEGER NOT NULL,
     cnpj_loja VARCHAR2(14) NOT NULL,
     nome VARCHAR2(255) NOT NULL,
     estoque NUMBER NOT NULL,
@@ -99,9 +98,6 @@ CREATE TABLE Produto(
 CREATE TABLE Pedido (
     ID_do_pedido INTEGER NOT NULL,
     quantidade NUMBER NOT NULL,
-    -- produto INTEGER NOT NULL,
-    -- cliente VARCHAR2(11) NOT NULL,
-    -- loja VARCHAR2(14) NOT NULL,
     transportadora VARCHAR2(14) NOT NULL,
     forma_de_pagamento VARCHAR2(255) NOT NULL, 
     data_de_saida DATE NOT NULL, 
@@ -109,8 +105,6 @@ CREATE TABLE Pedido (
     data_da_compra DATE NOT NULL,
     
     CONSTRAINT pedido_pk PRIMARY KEY (ID_do_pedido), 
-    -- CONSTRAINT pedido_fk1 FOREIGN KEY (produto, loja) REFERENCES Produto(identificacao, cnpj_loja),
-    -- CONSTRAINT pedido_fk2 FOREIGN KEY (cliente) REFERENCES Cliente(cpf_cliente),
     CONSTRAINT pedido_fk4 FOREIGN KEY (transportadora) REFERENCES Transportadora(cnpj_transportadora)
 );
 

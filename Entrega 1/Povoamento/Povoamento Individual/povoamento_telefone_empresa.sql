@@ -10,3 +10,8 @@ INSERT INTO Telefone_empresa(empresa, fone) VALUES ('75167938739208', '479970383
 INSERT INTO Telefone_empresa(empresa, fone) VALUES ('47087581321690', '48980454329');
 INSERT INTO Telefone_empresa(empresa, fone) VALUES ('86281239844091', '81993475201');
 INSERT INTO Telefone_empresa(empresa, fone) VALUES ('76286940702533', '81985099798');
+-- apenas lojas
+
+INSERT INTO Telefone_empresa(empresa, fone) VALUES ('75167938739001', '57998753421');
+INSERT INTO Telefone_empresa(empresa, fone) VALUES ('47087581321002', '81983403212');
+INSERT INTO Telefone_empresa(empresa, fone) VALUES ('75167938739003', '72996760932');
