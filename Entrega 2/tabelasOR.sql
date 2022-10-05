@@ -22,16 +22,16 @@ CREATE TABLE tb_funcionario OF tp_funcionario (
 );
 /
 CREATE TABLE tb_supervisor OF tp_supervisor (
-    supervisor WITH ROWID REFERENCES tp_funcionario NULL,
-    supervisionado WITH ROWID REFERENCES tp_funcionario NOT NULL
+    supervisor NULL,
+    supervisionado NOT NULL
 );
 /
 CREATE TABLE tb_cliente OF tp_cliente (
     cpf PRIMARY KEY,
     tipo_de_assinatura NOT NULL
 );
-
 -- /
+
 -- CREATE TABLE tb_empresa OF tp_empresa (
 --     cnpj PRIMARY KEY,
 --     nome_fantasia NOT NULL
@@ -40,14 +40,16 @@ CREATE TABLE tb_cliente OF tp_cliente (
 
 CREATE TABLE tb_loja OF tp_loja (
     cnpj PRIMARY KEY,
-    categorias NOT NULL
-);
-/
+    categoria NOT NULL
+)NESTED TABLE lista_fone STORE AS telefones_loja;
+/   
+
 CREATE TABLE tb_transportadora OF tp_transportadora (
     cnpj PRIMARY KEY,
     frete NOT NULL
-);
+)NESTED TABLE lista_fone STORE AS telefones_transportadora;
 /
+
 CREATE TABLE tb_produto OF tp_produto (
     cnpj_loja WITH ROWID REFERENCES tb_loja NOT NULL, -- deveria usar o SCOPE IS?
     cod_identificacao PRIMARY KEY,
@@ -56,6 +58,7 @@ CREATE TABLE tb_produto OF tp_produto (
     preco NOT NULL,
     media NOT NULL
 );
+/
 
 CREATE TABLE tb_pedido OF tp_pedido (
     ID_do_pedido PRIMARY KEY,
@@ -68,4 +71,3 @@ CREATE TABLE tb_pedido OF tp_pedido (
     cliente WITH ROWID REFERENCES tb_cliente,
     produto WITH ROWID REFERENCES tb_produto
 );
- 
