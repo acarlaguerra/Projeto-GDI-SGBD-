@@ -1,12 +1,10 @@
 /*
     RODANDO SEM BUGS, PORÉEMMMM:
-    1 -> Função ORDER NÃO PODE SER DEFINIDA EM SUBTIPOS como tava sendo feito em transportadora
-    2 -> MEMBER FUNCTION TAMBÉM NÃO DÁ PRA CRIAR EM SUBTIPO TEM Q SER NA ROOT
-    3 -> CRIEI UMA NESTED TABLE PARA FONE DAS EMPRESAS E ADICIONEI O DDD PRA FICAR DIFERENTE DO tp_fone
+    1 -> CRIEI UMA NESTED TABLE PARA FONE DAS EMPRESAS E ADICIONEI O DDD PRA FICAR DIFERENTE DO tp_fone
       do user.
-    4 -> Entidade fraca (PRODUTO): cloquei uma REF para a tp_produto, para saber de qual loja aquele produto é
+    2 -> Entidade fraca (PRODUTO): cloquei uma REF para a tp_produto, para saber de qual loja aquele produto é
       faz sentido???/ (eu não sei :D)
-    5 -> tp_pedido: tava dando problema com o REF do tp_funcionario, não entendi muito bem o pq mas tá ai p
+    3 -> tp_pedido: tava dando problema com o REF do tp_funcionario, não entendi muito bem o pq mas tá ai p
       resolver
     by: bill <3
 */
@@ -41,8 +39,16 @@ CREATE OR REPLACE TYPE tp_usuario AS OBJECT (
     telefone varr_tp_fone,
     endereco tp_endereco,
     MEMBER PROCEDURE mostrar_info,
-    FINAL MAP MEMBER FUNCTION qtd_num_telefone RETURN NUMBER -- isso tem que ser criado na root
+    FINAL MAP MEMBER FUNCTION qtd_num_telefone RETURN NUMBER
 ) NOT FINAL NOT INSTANTIABLE;
+/
+
+CREATE OR REPLACE TYPE BODY to_usuario AS
+    FINAL MAP MEMBER FUNCTION qtd_num_telefone RETURN NUMBER IS
+    BEGIN
+        RETURN COUNT_ELEMENTS(self.telefone);
+    END;
+END;
 
 -------------------------------------------------------------------------------
 
@@ -52,7 +58,6 @@ CREATE OR REPLACE TYPE tp_cliente UNDER tp_usuario (
     tipo_de_assinatura VARCHAR2 (255),
     OVERRIDING MEMBER PROCEDURE mostrar_info,
     CONSTRUCTOR FUNCTION tp_cliente(c tp_cliente) RETURN SELF AS RESULT
-    -- OVERRIDING FINAL MAP MEMBER FUNCTION qtd_num_telefone RETURN NUMBER -- isso deveria ter sido criado na root (user)
 );
 
 /
@@ -72,23 +77,19 @@ CREATE OR REPLACE TYPE BODY tp_cliente AS
         dbms_output.put_line(self.cpf);
         dbms_output.put_line(self.tipo_de_assinatura);
     END;
-    FINAL MAP MEMBER FUNCTION qtd_num_telefone RETURN NUMBER IS
-    BEGIN
-        RETURN COUNT_ELEMENTS(self.telefone);
-    END;
 END;
    
 --------------------------------------------------------------------------------
 
 -- Funcionário -----------------------------------------------------------------
 
-CREATE TYPE tp_funcionario UNDER tp_usuario (
+CREATE OR REPLACE TYPE tp_funcionario UNDER tp_usuario (
     supervisor VARCHAR2(11), 
     salario NUMBER, 
     data_de_admissao DATE,
     cargo VARCHAR2(255),
     MEMBER PROCEDURE aumenta_salario(SELF IN OUT NOCOPY tp_funcionario, input NUMBER),
-    MEMBER FUNCTION salario_anual,
+    MEMBER FUNCTION salario_anual RETURN NUMBER,
     OVERRIDING MEMBER PROCEDURE mostrar_info
 );
 
@@ -108,8 +109,9 @@ CREATE OR REPLACE TYPE BODY tp_funcionario AS
         dbms_output.put_line(self.tipo_de_assinatura);
     END;    
 END;
---------------------------------------------------------------------------------
 /
+--------------------------------------------------------------------------------
+
 -- NESTED TABLE ----------------------------------------------------------------
 CREATE OR REPLACE TYPE tp_fone_empresa AS OBJECT(
     ddd VARCHAR2(255),
@@ -148,22 +150,7 @@ CREATE OR REPLACE TYPE tp_loja UNDER tp_empresa (
 -- Transportadora (Herda de empresa) -------------------------------------------
 CREATE OR REPLACE TYPE tp_transportadora UNDER tp_empresa(
     frete NUMBER
-    -- OVERRIDING ORDER MEMBER FUNCTION compara_frete (SELF IN OUT NOCOPY tp_transportadora, t tp_transportadora) RETURN NUMBER -- a função deve ser criada na root
 );
-/
-CREATE OR REPLACE TYPE BODY tp_transportadora AS 
-    ORDER MEMBER FUNCTION compara_frete (SELF IN OUT NOCOPY tp_transportadora, t tp_transportadora) RETURN NUMBER IS
-    BEGIN
-        IF self.frete > t.frete THEN 
-            RETURN 1;
-        ELSIF self.frete < t.frete THEN
-            RETURN -1;
-        ELSE
-            RETURN 0;
-        END IF;
-    END;
-END;
---------------------------------------------------------------------------------
 /
 -- Produto -------------------------------------------------------------------
 CREATE OR REPLACE TYPE tp_produto AS OBJECT(
@@ -172,8 +159,22 @@ CREATE OR REPLACE TYPE tp_produto AS OBJECT(
     nome VARCHAR2(255),
     estoque NUMBER,
     preco NUMBER,
-    media NUMBER
+    media NUMBER,
+    ORDER MEMBER FUNCTION compara_preco (SELF IN OUT NOCOPY tp_produto, p tp_produto) RETURN NUMBER
 );
+/
+CREATE OR REPLACE TYPE BODY tp_produto AS 
+    ORDER MEMBER FUNCTION compara_preco (SELF IN OUT NOCOPY tp_produto, p tp_produto) RETURN NUMBER IS
+    BEGIN
+        IF self.preco > p.preco THEN 
+            RETURN 1;
+        ELSIF self.preco < p.preco THEN
+            RETURN -1;
+        ELSE
+            RETURN 0;
+        END IF;
+    END;
+END;
 /
 -- Pedido ----------------------------------------------------------------------
 CREATE OR REPLACE TYPE tp_pedido AS OBJECT(
@@ -193,5 +194,3 @@ CREATE OR REPLACE TYPE tp_pedido AS OBJECT(
 -- ADICIONA O ATRIBUTO EMAIL EM EMPRESA  SEUS DEPENDENTES --------------------
 ALTER TYPE tp_empresa ADD ATTRIBUTE (email VARCHAR2(255)) CASCADE;
 ------------------------------------------------------------------------------
-
-
