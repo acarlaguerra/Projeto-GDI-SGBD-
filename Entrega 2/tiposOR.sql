@@ -141,7 +141,7 @@ CREATE OR REPLACE TYPE tp_categorias AS OBJECT(
 );
 /
 -- NESTED TABLE de Categorias --------------------------------------------------------
-CREATE OR REPLACE TYPE varray_tp_categorias AS VARRAY (6) OF tp_categorias;
+CREATE OR REPLACE TYPE varray_tp_categorias AS VARRAY (3) OF tp_categorias;
 /
 --------------------------------------------------------------------------------
 
@@ -188,17 +188,30 @@ CREATE OR REPLACE TYPE BODY tp_produto AS
     END;
 END;
 /
-
+-- VARRAY nome_produtos ---------------------------------------------------------
+CREATE OR REPLACE TYPE tp_nome_produtos AS OBJECT (
+    nome_produto VARCHAR2(255)
+);
+/
+CREATE OR REPLACE TYPE tp_nt_produtos AS TABLE OF tp_nome_produtos;
+/
+-- VARRAY lojas ----------------------------------------------------------------
+CREATE OR REPLACE TYPE tp_lojas AS OBJECT (
+    info_loja VARCHAR2(255)
+);
+/
+CREATE OR REPLACE TYPE tp_nt_lojas AS TABLE OF tp_lojas;
+/
 -- Pedido ----------------------------------------------------------------------
 CREATE OR REPLACE TYPE tp_pedido AS OBJECT(
     ID_do_pedido INTEGER,
-    quantidade NUMBER,
+    quantidade NUMBER, 
     forma_de_pagamento VARCHAR2(255),
     data_da_compra DATE,
     pedido_transportadora REF tp_transportadora,
-    pedido_loja REF tp_loja,
+    lojas tp_nt_lojas,
     pedido_cliente REF tp_cliente,
-    pedido_produto REF tp_produto
+    produtos tp_nt_produtos
 );
 ------------------------------------------------------------------------------
 /

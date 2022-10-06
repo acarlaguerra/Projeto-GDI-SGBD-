@@ -165,11 +165,11 @@ INSERT INTO tb_loja VALUES (
     tp_loja('12345678967890',
             'Nivan Inutilidades',
             '976544567',
-            varray_tp_categorias(tp_categorias('Roupa',
-                                               'Livros',
-                                               'Problemas'
-                                )),
-            'nivanzero@cin.ufpe.br'
+            'nivanzero@cin.ufpe.br',
+            varray_tp_categorias(tp_categorias('Roupa'),
+                                 tp_categorias('Livros'),
+                                 tp_categorias('Problemas')
+            )
     )
 );
 /
@@ -177,10 +177,11 @@ INSERT INTO tb_loja VALUES (
     tp_loja('09876543211234',
             'Adriano do Hardware',
             '909080706',
-            varray_tp_categorias(tp_categorias('Eletrônicos',
-                                               'Acessorios'
-                                )),
-            'adrianobytes@cin.ufpe.br'
+            'adrianobytes@cin.ufpe.br',
+            varray_tp_categorias(tp_categorias('Eletrônicos'),
+                                 tp_categorias('Acessorios'),
+                                 tp_categorias('Pneu')
+            )
     )
 );
 /
@@ -188,11 +189,11 @@ INSERT INTO tb_loja VALUES (
     tp_loja('11223344556677',
             'Alex Pessoa',
             '912212332',
-            varray_tp_categorias(tp_categorias('Material de escritório',
-                                               'Revistas',
-                                               'Soluções para os seus problemas',
-                                )),
-            'alexdosanjos@cin.ufpe.br'
+            'alexdosanjos@cin.ufpe.br',
+            varray_tp_categorias(tp_categorias('Material de escritório'),
+                                 tp_categorias('Revistas'),
+                                 tp_categorias('Soluções para os seus problemas')
+            )
     )
 );
 /
@@ -202,237 +203,237 @@ INSERT INTO tb_transportadora VALUES (
     tp_transportadora('87451378946514', --cnpj (14 dígitos)
                       'Reprovação entregas', --nome_fantasia
                       '94592189412987', --fone
+                      'reprovacao@cin.ufpe.br',
                       20 --frete
+                      
     )
-    'reprovacao@cin.ufpe.br'
+    
 );
 /
 INSERT INTO tb_transportadora VALUES (
     tp_transportadora('94586194527946', --cnpj (14 dígitos)
                       'Rapidão Almir', --nome_fantasia
                       '98416515684784', --fone
+                      'almirquentinhas@cin.ufpe.br',
                       15 --frete
+                      
     )
-    'almirquentinhas@cin.ufpe.br'
+    
 );
 /
 -- Produto ----------------------------------------------------------------------------
 
 INSERT INTO tb_produto VALUES (
-    tp_produto((SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '11223344556677'),
+    tp_produto((SELECT REF(L) FROM tb_loja L
+               WHERE L.cnpj = '11223344556677'),
                '000',
                'Design Thinking',
                100,
                70.00,
-               tp_nt_notas(tp_notas(2,
-                                    3,
-                                    5,
-                                    4,
-                                    5,
-                                    5,
-                                    2
+               tp_nt_notas(tp_notas(2),
+                           tp_notas(3),
+                           tp_notas(5),
+                           tp_notas(4),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(2)
                ))
-    )    
-);
+);   
+
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto((SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '11223344556677'),
+    tp_produto((SELECT REF(L) FROM tb_loja L
+               WHERE L.cnpj = '11223344556677'),
                '001',
                'Design for Kids',
                120,
                100.00,
-               tp_nt_notas(tp_notas(4,
-                                    1,
-                                    1,
-                                    5,
-                                    0,
-                                    5,
-                                    5
+               tp_nt_notas(tp_notas(4),
+                           tp_notas(1),
+                           tp_notas(5),
+                           tp_notas(0),
+                           tp_notas(5),
+                           tp_notas(5)
                ))
-    )    
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto((SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '11223344556677'),
+    tp_produto((SELECT REF(L) FROM tb_loja L
+               WHERE L.cnpj = '11223344556677'),
                '002',
                'Aprovação',
                1,
                10000.00,
-               tp_nt_notas(tp_notas(5,
-                                    5,
-                                    5,
-                                    5,
-                                    5,
-                                    5,
-                                    5
-               ))
-    )    
+               tp_nt_notas(tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5)
+               ))   
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto((SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '11223344556677'),
+    tp_produto((SELECT REF(L) FROM tb_loja L
+               WHERE L.cnpj = '11223344556677'),
                '003',
                'Abridor de lata',
                50,
                9.00,
-               tp_nt_notas(tp_notas(3,
-                                    5,
-                                    5,
-                                    4,
-                                    2,
-                                    5,
-                                    1
-               ))
+               tp_nt_notas(tp_notas(3),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5)
+               )
     )    
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto((SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '11223344556677'),
+    tp_produto((SELECT REF(L) FROM tb_loja L
+               WHERE L.cnpj = '11223344556677'),
                '004',
                'Mesinha',
                14,
                150.00,
-               tp_nt_notas(tp_notas(0,
-                                    2,
-                                    0,
-                                    3,
-                                    2,
-                                    3,
-                                    1
-               ))
+               tp_nt_notas(tp_notas(0),
+                           tp_notas(2),
+                           tp_notas(0),
+                           tp_notas(3),
+                           tp_notas(2),
+                           tp_notas(3),
+                           tp_notas(1)
+               )
     )    
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto((SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '11223344556677'),
+    tp_produto((SELECT REF(L) FROM tb_loja L
+               WHERE L.cnpj = '11223344556677'),
                '005',
                'Cadeira Ergonômica',
                50,
                1200.00,
-               tp_nt_notas(tp_notas(5,
-                                    5,
-                                    5,
-                                    5,
-                                    5,
-                                    5,
-                                    5
-               ))
+               tp_nt_notas(tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5)
+               )
     )    
 );
 /
 -- Nivan inutilidades
 INSERT INTO tb_produto VALUES (
-    tp_produto((SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '12345678967890'),
-               '004',
+    tp_produto((SELECT REF(L) FROM tb_loja L
+               WHERE L.cnpj = '12345678967890'),
+               '031',
                '30 minutos no tempo de prova',
                1,
                12000.00,
-               tp_nt_notas(tp_notas(3,
-                                    3,
-                                    2,
-                                    4,
-                                    1,
-                                    0,
-                                    1
-               ))
+               tp_nt_notas(tp_notas(3),
+                           tp_notas(3),
+                           tp_notas(2),
+                           tp_notas(4),
+                           tp_notas(1),
+                           tp_notas(0),
+                           tp_notas(1)
+               )
     )    
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto((SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '12345678967890'),
-               '005',
+    tp_produto((SELECT REF(L) FROM tb_loja L
+               WHERE L.cnpj = '12345678967890'),
+               '029',
                'Casaco anti-trapaça na prova',
                250,
                40.00,
-               tp_nt_notas(tp_notas(2,
-                                    5,
-                                    2,
-                                    4,
-                                    1,
-                                    4,
-                                    5
-               ))
+               tp_nt_notas(tp_notas(2),
+                           tp_notas(5),
+                           tp_notas(2),
+                           tp_notas(4),
+                           tp_notas(1),
+                           tp_notas(4),
+                           tp_notas(5)
+               )
     )    
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto((SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '12345678967890'),
-               '006',
+    tp_produto((SELECT REF(L) FROM tb_loja L
+               WHERE L.cnpj = '12345678967890'),
+               '012',
                'Matemática discreta para leigos',
                100,
                150.00,
-               tp_nt_notas(tp_notas(5,
-                                    0,
-                                    1,
-                                    0,
-                                    1,
-                                    2,
-                                    3
-               ))
+               tp_nt_notas(tp_notas(5),
+                           tp_notas(0),
+                           tp_notas(1),
+                           tp_notas(0),
+                           tp_notas(1),
+                           tp_notas(2),
+                           tp_notas(3)
+               )
     )    
 );
 /
 -- adriano (acessórios / eletrônicos)
 INSERT INTO tb_produto VALUES (
-    tp_produto((SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '09876543211234'),
+    tp_produto((SELECT REF(L) FROM tb_loja L
+               WHERE L.cnpj = '09876543211234'),
                '111',
                'Processador MIPS',
                250,
                500.00,
-               tp_nt_notas(tp_notas(5,
-                                    5,
-                                    2,
-                                    4,
-                                    1,
-                                    4,
-                                    5
+               tp_nt_notas(tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(2),
+                           tp_notas(4),
+                           tp_notas(1),
+                           tp_notas(4),
+                           tp_notas(5)         
                ))
-    )    
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto((SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '09876543211234'),
+    tp_produto((SELECT REF(L) FROM tb_loja L
+               WHERE L.cnpj = '09876543211234'),
                '112',
                'Super memória DD8',
                1000,
                1000.00,
-               tp_nt_notas(tp_notas(5,
-                                    5,
-                                    5,
-                                    5,
-                                    5,
-                                    5,
-                                    5
-               ))
+               tp_nt_notas(tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(5)
+               )
     )    
 );
 /
 INSERT INTO tb_produto VALUES (
-    tp_produto((SELECT REF(P) FROM tb_loja
-               WHERE P.cnpj = '09876543211234'),
+    tp_produto((SELECT REF(L) FROM tb_loja L
+               WHERE L.cnpj = '09876543211234'),
                '851',
                'Mouse programado em Verilog',
                64,
                280.00,
-               tp_nt_notas(tp_notas(5,
-                                    5,
-                                    4,
-                                    5,
-                                    1,
-                                    4,
-                                    2
-               ))
+               tp_nt_notas(tp_notas(5),
+                           tp_notas(5),
+                           tp_notas(4),
+                           tp_notas(5),
+                           tp_notas(1),
+                           tp_notas(4),
+                           tp_notas(2)
+               )
     )    
 );
 /
@@ -449,12 +450,16 @@ INSERT INTO tb_pedido VALUES (tp_pedido(id.NEXTVAL,
                               to_date('20/09/2022', 'dd/mm/yy'),
                               (SELECT REF(T) FROM tb_transportadora T
                               WHERE T.cnpj = '94586194527946'),
-                              (SELECT REF(L) FROM tb_loja L
-                              WHERE T.cnpj = '09876543211234'),
+                              tp_nt_lojas(tp_lojas('12345678967890'),
+                                          tp_lojas('11223344556677')
+                              ),
                               (SELECT REF(C) FROM tb_cliente C
-                              WHERE T.cpf = '21'),
-                              (SELECT REF(P) FROM tb_produto P
-                              WHERE T.cod_identificacao = '000')               
+                              WHERE C.cpf = '21'),
+                              tp_nt_produtos(tp_nome_produtos('30 minutos no tempo de prova'),
+                                             tp_nome_produtos('30 minutos no tempo de prova'),
+                                             tp_nome_produtos('Matemática discreta para leigos'),
+                                             tp_nome_produtos('Design Thinking')                   
+                              )               
     )
 );
 /
@@ -464,12 +469,12 @@ INSERT INTO tb_pedido VALUES (tp_pedido(id.NEXTVAL,
                               to_date('20/09/2022', 'dd/mm/yy'),
                               (SELECT REF(T) FROM tb_transportadora T
                               WHERE T.cnpj = '94586194527946'),
-                              (SELECT REF(L) FROM tb_loja L
-                              WHERE T.cnpj = '12345678967890'),
+                              tp_nt_lojas(tp_lojas('09876543211234')),
                               (SELECT REF(C) FROM tb_cliente C
-                              WHERE T.cpf = '20'),
-                              (SELECT REF(P) FROM tb_produto P
-                              WHERE T.cod_identificacao = '001')
+                              WHERE C.cpf = '20'),
+                              tp_nt_produtos(tp_nome_produtos('Mouse programado em Verilog'),
+                                             tp_nome_produtos('Super memória DD8')
+                              )
     )
 );
 /
@@ -479,12 +484,16 @@ INSERT INTO tb_pedido VALUES (tp_pedido(id.NEXTVAL,
                               to_date('20/09/2022', 'dd/mm/yy'),
                               (SELECT REF(T) FROM tb_transportadora T
                               WHERE T.cnpj = '87451378946514'),
-                              (SELECT REF(L) FROM tb_loja L
-                              WHERE T.cnpj = '11223344556677'),
+                              tp_nt_lojas(tp_lojas('12345678967890'),
+                                          tp_lojas('11223344556677')             
+                              ),
                               (SELECT REF(C) FROM tb_cliente C
-                              WHERE T.cpf = '24'),
-                              (SELECT REF(P) FROM tb_produto P
-                              WHERE T.cod_identificacao = '002'),                 
+                              WHERE C.cpf = '24'),
+                              tp_nt_produtos(tp_nome_produtos('Aprovação'),
+                                             tp_nome_produtos('30 minutos no tempo de prova'),
+                                             tp_nome_produtos('Cadeira Ergonômica'),
+                                             tp_nome_produtos('Mesinha')       
+                              )               
     )
 );
 /
@@ -494,11 +503,15 @@ INSERT INTO tb_pedido VALUES (tp_pedido(id.NEXTVAL,
                               to_date('20/09/2022', 'dd/mm/yy'),
                               (SELECT REF(T) FROM tb_transportadora T
                               WHERE T.cnpj = '87451378946514'),
-                              (SELECT REF(L) FROM tb_loja L
-                              WHERE T.cnpj = '12345678967890'),
+                              tp_nt_lojas(tp_lojas('11223344556677'),
+                                          tp_lojas('09876543211234')    
+                              ),
                               (SELECT REF(C) FROM tb_cliente C
-                              WHERE T.cpf = '22'),
-                              (SELECT REF(P) FROM tb_produto P
-                              WHERE T.cod_identificacao = '003'),       
+                              WHERE C.cpf = '22'),
+                              tp_nt_produtos(tp_nome_produtos('Design Thinking'),
+                                             tp_nome_produtos('Design for Kids'),
+                                             tp_nome_produtos('Aprovação'),
+                                             tp_nome_produtos('Super memória DD8')     
+                              )               
     )
 );

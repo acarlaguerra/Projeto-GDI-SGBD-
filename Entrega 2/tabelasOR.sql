@@ -11,21 +11,24 @@ CREATE TABLE tb_funcionario OF tp_funcionario (
     cargo NOT NULL
 );
 /
+
 CREATE TABLE tb_supervisor OF tp_supervisor (
     supervisor NULL,
     supervisionado NOT NULL
 );
 /
+
 CREATE TABLE tb_cliente OF tp_cliente (
     cpf PRIMARY KEY,
     tipo_de_assinatura NOT NULL
 );
 /
+
 CREATE TABLE tb_loja OF tp_loja (
     cnpj PRIMARY KEY,
     categoria NOT NULL
 );
-/   
+/
 
 CREATE TABLE tb_transportadora OF tp_transportadora (
     cnpj PRIMARY KEY,
@@ -48,7 +51,7 @@ CREATE TABLE tb_pedido OF tp_pedido (
     forma_de_pagamento NOT NULL,
     data_da_compra NOT NULL,
     pedido_transportadora WITH ROWID REFERENCES tb_transportadora NOT NULL, 
-    pedido_loja WITH ROWID REFERENCES tb_loja NOT NULL,
-    pedido_cliente WITH ROWID REFERENCES tb_cliente NOT NULL,
-    pedido_produto WITH ROWID REFERENCES tb_produto NOT NULL
-);
+    pedido_cliente WITH ROWID REFERENCES tb_cliente NOT NULL
+
+) NESTED TABLE lojas STORE AS lojas_comprados,
+  NESTED TABLE produtos STORE AS produtos_comprados;
