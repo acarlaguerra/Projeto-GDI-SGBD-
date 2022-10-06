@@ -188,14 +188,14 @@ CREATE OR REPLACE TYPE BODY tp_produto AS
     END;
 END;
 /
--- VARRAY nome_produtos ---------------------------------------------------------
+-- NESTED TABLE nome_produtos ---------------------------------------------------------
 CREATE OR REPLACE TYPE tp_nome_produtos AS OBJECT (
     nome_produto VARCHAR2(255)
 );
 /
 CREATE OR REPLACE TYPE tp_nt_produtos AS TABLE OF tp_nome_produtos;
 /
--- VARRAY lojas ----------------------------------------------------------------
+-- NESTED TABLE lojas ----------------------------------------------------------------
 CREATE OR REPLACE TYPE tp_lojas AS OBJECT (
     info_loja VARCHAR2(255)
 );
