@@ -47,7 +47,7 @@ END;
 CREATE OR REPLACE TYPE tp_cliente UNDER tp_usuario (   
     tipo_de_assinatura VARCHAR2 (255),
     OVERRIDING MEMBER PROCEDURE mostrar_info,
-    CONSTRUCTOR FUNCTION tp_cliente(c tp_cliente) RETURN SELF AS RESULT
+    CONSTRUCTOR FUNCTION tp_cliente(x1 tp_cliente) RETURN SELF AS RESULT
 );
 /
 
@@ -56,16 +56,15 @@ CREATE OR REPLACE TYPE BODY tp_cliente AS
         BEGIN
             DBMS_OUTPUT.PUT_LINE(nome);
             DBMS_OUTPUT.PUT_LINE(cpf);
-            DBMS_OUTPUT.PUT_LINE(telefone);
             DBMS_OUTPUT.PUT_LINE(tipo_de_assinatura);
         END;
-    CONSTRUCTOR FUNCTION tp_cliente (c tp_cliente) RETURN SELF AS RESULT IS
+    CONSTRUCTOR FUNCTION tp_cliente (x1 tp_cliente) RETURN SELF AS RESULT IS
         BEGIN
-            cpf := c.cpf;
-            nome := c.nome;
-            telefone := c.telefone;
-            endereco := c.endereco;
-            tipo_de_assinatura := c.tipo_de_assinatura;
+            cpf := x1.cpf;
+            nome := x1.nome;
+            telefone := x1.telefone;
+            endereco := x1.endereco;
+            tipo_de_assinatura := x1.tipo_de_assinatura;
             RETURN;
         END;
 END;
