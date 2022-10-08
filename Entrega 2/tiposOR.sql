@@ -25,20 +25,8 @@ CREATE OR REPLACE TYPE tp_usuario AS OBJECT (
     nome VARCHAR2(255),
     telefone varr_tp_fone,
     endereco tp_endereco,
-    MEMBER PROCEDURE mostrar_info,
-    FINAL MAP MEMBER FUNCTION qtd_num_telefone RETURN NUMBER
+    MEMBER PROCEDURE mostrar_info
 ) NOT FINAL NOT INSTANTIABLE;
-/
-
-CREATE OR REPLACE TYPE BODY to_usuario AS
-    FINAL MAP MEMBER FUNCTION qtd_num_telefone RETURN NUMBER IS
-        DECLARE
-            qtd_telefones NUMBER;
-        BEGIN
-            SELECT COUNT(*) INTO qtd_telefones FROM TABLE(SELF.telefone);
-            RETURN qtd_telefones;
-        END;
-END;
 /
 -------------------------------------------------------------------------------
 
@@ -86,6 +74,7 @@ CREATE OR REPLACE TYPE BODY tp_funcionario AS
     MEMBER PROCEDURE aumenta_salario (SELF IN OUT NOCOPY tp_funcionario, input NUMBER) IS
         BEGIN
             self.salario := salario + (salario*input);
+            DBMS_OUTPUT.PUT_LINE(self.salario);
         END;
     MEMBER FUNCTION salario_anual RETURN NUMBER IS
         BEGIN
@@ -185,9 +174,17 @@ CREATE OR REPLACE TYPE tp_pedido AS OBJECT(
     pedido_transportadora REF tp_transportadora,
     lojas tp_nt_lojas,
     pedido_cliente REF tp_cliente,
-    produtos tp_nt_produtos
+    produtos tp_nt_produtos,
+    FINAL MAP MEMBER FUNCTION qtd_pedido RETURN NUMBER
 );
-------------------------------------------------------------------------------
+/
+
+CREATE OR REPLACE TYPE BODY tp_pedido AS
+    FINAL MAP MEMBER FUNCTION qtd_pedido RETURN NUMBER IS
+        BEGIN
+            RETURN quantidade;
+        END;
+END;
 /
 
 -- ADICIONA O ATRIBUTO EMAIL EM EMPRESA  SEUS DEPENDENTES --------------------

@@ -334,7 +334,7 @@ INSERT INTO tb_produto VALUES (
                WHERE L.cnpj = '12345678967890'),
                '031',
                '30 minutos no tempo de prova',
-               1,
+               3,
                12000.00,
                tp_nt_notas(tp_notas(3),
                            tp_notas(3),
