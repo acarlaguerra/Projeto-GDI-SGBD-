@@ -1,14 +1,3 @@
-/*
-    RODANDO SEM BUGS, PORÉEMMMM:
-    1 -> CRIEI UMA NESTED TABLE PARA FONE DAS EMPRESAS E ADICIONEI O DDD PRA FICAR DIFERENTE DO tp_fone
-      do user.
-    2 -> Entidade fraca (PRODUTO): cloquei uma REF para a tp_produto, para saber de qual loja aquele produto é
-      faz sentido???/ (eu não sei :D)
-    3 -> tp_pedido: tava dando problema com o REF do tp_funcionario, não entendi muito bem o pq mas tá ai p
-      resolver
-    by: bill <3
-*/
-
 -- Endereço 
 
 CREATE OR REPLACE TYPE tp_endereco AS OBJECT(
@@ -17,7 +6,6 @@ CREATE OR REPLACE TYPE tp_endereco AS OBJECT(
     rua VARCHAR2(255)
 );
 /
-
 -- Telefone
 
 CREATE OR REPLACE TYPE tp_fone AS OBJECT(
@@ -29,7 +17,6 @@ CREATE OR REPLACE TYPE tp_fone AS OBJECT(
 
 CREATE OR REPLACE TYPE varr_tp_fone AS VARRAY (6) OF tp_fone;
 /
-
 
 -- Usuário --------------------------------------------------------------------
 
@@ -45,9 +32,12 @@ CREATE OR REPLACE TYPE tp_usuario AS OBJECT (
 
 CREATE OR REPLACE TYPE BODY to_usuario AS
     FINAL MAP MEMBER FUNCTION qtd_num_telefone RETURN NUMBER IS
-    BEGIN
-        RETURN COUNT_ELEMENTS(self.telefone);
-    END;
+        DECLARE
+            qtd_telefones NUMBER;
+        BEGIN
+            SELECT COUNT(*) INTO qtd_telefones FROM TABLE(SELF.telefone);
+            RETURN qtd_telefones;
+        END;
 END;
 /
 -------------------------------------------------------------------------------
@@ -62,23 +52,24 @@ CREATE OR REPLACE TYPE tp_cliente UNDER tp_usuario (
 /
 
 CREATE OR REPLACE TYPE BODY tp_cliente AS
-    CONSTRUCTOR FUNCTION tp_cliente(c tp_cliente) RETURN SELF AS RESULT
-    BEGIN
-        cpf := c.cpf;
-        nome := c.nome;
-        endereco := c.endereco;
-        telefone := c.telefone;
-        RETURN
-    END;
     OVERRIDING MEMBER PROCEDURE mostrar_info IS 
-    BEGIN
-        dbms_output.put_line(self.nome);
-        dbms_output.put_line(self.cpf);
-        dbms_output.put_line(self.tipo_de_assinatura);
-    END;
+        BEGIN
+            DBMS_OUTPUT.PUT_LINE(nome);
+            DBMS_OUTPUT.PUT_LINE(cpf);
+            DBMS_OUTPUT.PUT_LINE(telefone);
+            DBMS_OUTPUT.PUT_LINE(tipo_de_assinatura);
+        END;
+    CONSTRUCTOR FUNCTION tp_cliente (c tp_cliente) RETURN SELF AS RESULT IS
+        BEGIN
+            cpf := c.cpf;
+            nome := c.nome;
+            telefone := c.telefone;
+            endereco := c.endereco;
+            tipo_de_assinatura := c.tipo_de_assinatura;
+            RETURN;
+        END;
 END;
 /
-   
 --------------------------------------------------------------------------------
 
 -- Funcionário -----------------------------------------------------------------
@@ -88,26 +79,19 @@ CREATE OR REPLACE TYPE tp_funcionario UNDER tp_usuario (
     data_de_admissao DATE,
     cargo VARCHAR2(255),
     MEMBER PROCEDURE aumenta_salario(SELF IN OUT NOCOPY tp_funcionario, input NUMBER),
-    MEMBER FUNCTION salario_anual RETURN NUMBER,
-    OVERRIDING MEMBER PROCEDURE mostrar_info
+    MEMBER FUNCTION salario_anual RETURN NUMBER
 );
 /
 
 CREATE OR REPLACE TYPE BODY tp_funcionario AS
     MEMBER PROCEDURE aumenta_salario (SELF IN OUT NOCOPY tp_funcionario, input NUMBER) IS
-    BEGIN
-        self.salario := salario + (salario*input);
-    END;
+        BEGIN
+            self.salario := salario + (salario*input);
+        END;
     MEMBER FUNCTION salario_anual RETURN NUMBER IS
-    BEGIN
-        RETURN salario * 12;
-    END;
-    OVERRIDING MEMBER PROCEDURE mostrar_info IS 
-    BEGIN
-        dbms_output.put_line(self.nome);
-        dbms_output.put_line(self.cpf);
-        dbms_output.put_line(self.tipo_de_assinatura);
-    END;    
+        BEGIN
+            RETURN salario * 12;
+        END; 
 END;
 /
 --------------------------------------------------------------------------------
@@ -116,16 +100,7 @@ CREATE OR REPLACE TYPE tp_supervisor AS OBJECT (
     supervisionado REF tp_funcionario
 );
 /
--- -- -- NESTED TABLE ----------------------------------------------------------------
--- CREATE OR REPLACE TYPE tp_fone_empresa AS OBJECT(
---     ddd VARCHAR2(255),
---     fone VARCHAR2 (255)
--- );
--- / 
--- CREATE OR REPLACE TYPE tp_nt_fone AS TABLE OF tp_fone_empresa;
--- /
 -- Empresa ---------------------------------------------------------------------
--- deveriamos fazer a nested table aq?
 CREATE OR REPLACE TYPE tp_empresa AS OBJECT(
     cnpj VARCHAR2(14),
     nome_fantasia VARCHAR2(255),
@@ -177,15 +152,15 @@ CREATE OR REPLACE TYPE tp_produto AS OBJECT(
 /
 CREATE OR REPLACE TYPE BODY tp_produto AS 
     ORDER MEMBER FUNCTION compara_preco (SELF IN OUT NOCOPY tp_produto, p tp_produto) RETURN NUMBER IS
-    BEGIN
-        IF self.preco > p.preco THEN 
-            RETURN 1;
-        ELSIF self.preco < p.preco THEN
-            RETURN -1;
-        ELSE
-            RETURN 0;
-        END IF;
-    END;
+        BEGIN
+            IF self.preco > p.preco THEN 
+                RETURN 1;
+            ELSIF self.preco < p.preco THEN
+                RETURN -1;
+            ELSE
+                RETURN 0;
+            END IF;
+        END;
 END;
 /
 -- NESTED TABLE nome_produtos ---------------------------------------------------------
