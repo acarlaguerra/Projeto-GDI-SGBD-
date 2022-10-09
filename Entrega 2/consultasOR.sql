@@ -1,5 +1,5 @@
 -- Consultas básicas
-    -- Funcionário
+-- Funcionário
 SELECT cpf, salario, data_de_admissao, cargo
 FROM tb_funcionario;
 /
@@ -38,10 +38,7 @@ SELECT * FROM TABLE(SELECT P.produtos FROM tb_pedido P
 WHERE P.pedido_cliente = (SELECT REF(C) FROM tb_cliente C
                             WHERE C.cpf = '21'));
 
-
-
-
----- Testando os métodos (FUNCTION e PROCEDURE) ----------------------------------------------------------------------
+-- Testando os métodos (FUNCTION e PROCEDURE)
 -- <OVERRIDING MEMBER PROCEDURE>
 DECLARE
     cliente tp_cliente;
@@ -69,7 +66,6 @@ SELECT P.qtd_pedido() FROM tb_pedido P
 WHERE P.ID_do_pedido = 3;
 /
 
-
 --<ORDER MEMBER FUNCTION>
 DECLARE
     result NUMBER;
@@ -83,7 +79,6 @@ BEGIN
     SELECT VALUE(P) INTO produto_2 FROM tb_produto P
     WHERE P.cod_identificacao = '111';
 
-
     result := produto_1.compara_preco(produto_2);
     
     IF result = 0 THEN
@@ -92,7 +87,6 @@ BEGIN
     ELSIF result = 1 THEN
         DBMS_OUTPUT.PUT_LINE('O produto ' || TO_CHAR(produto_1.nomes) || ' é mais caro em comparação ao produto '|| TO_CHAR(produto_2.nomes)
                              || '. O primeiro custa ' || TO_CHAR(produto_1.preco) || ' reais, enquanto o segundo custa ' || TO_CHAR(produto_2.preco) || ' reais.');
-
     ELSE 
         DBMS_OUTPUT.PUT_LINE('O produto ' || TO_CHAR(produto_2.nomes) || ' é mais caro em comparação ao produto '|| TO_CHAR(produto_1.nomes)
                              || '. O primeiro custa ' || TO_CHAR(produto_2.preco) || ' reais, enquanto o segundo custa ' || TO_CHAR(produto_1.preco) || ' reais.');
