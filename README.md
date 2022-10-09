@@ -18,7 +18,7 @@ Os scripts foram construídos e testados no editor [Oracle Live SQL](https://liv
 3. `povoamentoOR.sql` para povoar as tabelas
 4. `consultasOR.sql` para acessar as consultas
 
-## Equipe (e seu GitHub)
+## Equipe (e o GitHub de cada integrante)
 
 |  [Ana Carla Guerra](https://github.com/acarlaguerra)  |    [Bonna Borsoi](https://github.com/bonnaborsoi)    | [Carolina Berrafato](https://github.com/carolinaberrafato) |  [Gabriel Meireles](https://github.com/gabmei)  |    [João Marcelo](https://github.com/joaomarcelovalencachacon)    |   [Lucas Vinícius](https://github.com/VS-Lucas)   |  [Severino Carlos](https://github.com/severinocarlos)   |
 | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
