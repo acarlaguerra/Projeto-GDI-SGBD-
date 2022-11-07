@@ -103,7 +103,7 @@ CREATE OR REPLACE TYPE tp_categorias AS OBJECT(
     categoria VARCHAR2(255)
 );
 /
--- NESTED TABLE de Categorias --------------------------------------------------------
+-- VARRAY de Categorias --------------------------------------------------------
 CREATE OR REPLACE TYPE varray_tp_categorias AS VARRAY (3) OF tp_categorias;
 /
 --------------------------------------------------------------------------------
